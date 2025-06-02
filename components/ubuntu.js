@@ -12,11 +12,13 @@ export default class Ubuntu extends Component {
 			screen_locked: false,
 			bg_image_name: 'wall-2',
 			booting_screen: true,
-			shutDownScreen: false
+			shutDownScreen: false,
+			isClient: false
 		};
 	}
 
 	componentDidMount() {
+		this.setState({ isClient: true });
 		this.getLocalData();
 	}
 
@@ -27,6 +29,8 @@ export default class Ubuntu extends Component {
 	};
 
 	getLocalData = () => {
+		if (typeof window === 'undefined') return;
+
 		// Get Previously selected Background Image
 		let bg_image_name = localStorage.getItem('bg-image');
 		if (bg_image_name !== null && bg_image_name !== undefined) {
@@ -109,18 +113,22 @@ export default class Ubuntu extends Component {
 	render() {
 		return (
 			<div className="w-screen h-screen overflow-hidden" id="monitor-screen">
-				<LockScreen
-					isLocked={this.state.screen_locked}
-					bgImgName={this.state.bg_image_name}
-					unLockScreen={this.unLockScreen}
-				/>
-				<BootingScreen
-					visible={this.state.booting_screen}
-					isShutDown={this.state.shutDownScreen}
-					turnOn={this.turnOn}
-				/>
-				<Navbar lockScreen={this.lockScreen} shutDown={this.shutDown} />
-				<Desktop bg_image_name={this.state.bg_image_name} changeBackgroundImage={this.changeBackgroundImage} />
+				{this.state.isClient && (
+					<>
+						<LockScreen
+							isLocked={this.state.screen_locked}
+							bgImgName={this.state.bg_image_name}
+							unLockScreen={this.unLockScreen}
+						/>
+						<BootingScreen
+							visible={this.state.booting_screen}
+							isShutDown={this.state.shutDownScreen}
+							turnOn={this.turnOn}
+						/>
+						<Navbar lockScreen={this.lockScreen} shutDown={this.shutDown} />
+						<Desktop bg_image_name={this.state.bg_image_name} changeBackgroundImage={this.changeBackgroundImage} />
+					</>
+				)}
 			</div>
 		);
 	}
