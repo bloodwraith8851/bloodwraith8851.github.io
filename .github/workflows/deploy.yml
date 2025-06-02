@@ -27,13 +27,15 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Add .nojekyll file
+      - name: Prepare for deployment
         run: |
-          touch out/.nojekyll
+          cp -r .next/standalone/* .
+          cp -r .next/static .next/standalone/_next/static
+          touch .nojekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: out
+          folder: .next/standalone
           branch: gh-pages
           clean: true 
