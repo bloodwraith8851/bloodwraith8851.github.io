@@ -7,6 +7,7 @@ import { displayTrash } from './components/apps/trash';
 import { displayGedit } from './components/apps/gedit';
 import { displayAboutVivek } from './components/apps/vivek';
 import { displayTerminalCalc } from './components/apps/calc';
+import { displayNyxDino } from './components/apps/nyxdino';
 
 const apps = [
     {
@@ -99,17 +100,16 @@ const apps = [
         desktop_shortcut: true,
         isExternalApp: true,
         url: "https://github.com/bloodwraith8851",
-        screen: () => {},
+        screen: () => { },
     },
     {
-        id: "tars",
-        title: "Ask Tars",
-        icon: './themes/Yaru/apps/tars.svg',
-        disabled: false,
-        favourite: false,
-        desktop_shortcut: true,
-        isExternalApp: true,
-        url: "https://www.vivek9patel.com/tars"
+        id: "nyxdino",
+        title: "NyxDino AI",           // Appears in window title
+        icon: './themes/Yaru/apps/tars.svg',  // Your TARS icon
+        disabled: false,               // App is enabled
+        favourite: true,               // Shows in sidebar
+        desktop_shortcut: true,        // Shows on desktop
+        screen: displayNyxDino,
     },
 ]
 
