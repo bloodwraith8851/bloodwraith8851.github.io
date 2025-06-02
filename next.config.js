@@ -1,15 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  output: 'export',
   images: {
     unoptimized: true,
   },
   assetPrefix: '.',
+  basePath: '',
   trailingSlash: true,
-  distDir: 'dist',
-  // If your repository name is different from your GitHub username,
-  // uncomment and update the following line:
-  // basePath: '/your-repo-name',
+  distDir: 'out'
 }
 
 module.exports = nextConfig 
