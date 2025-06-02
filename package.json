@@ -2,7 +2,7 @@
   "name": "bloodwraith8851-portfolio",
   "version": "2.0.0",
   "private": true,
-  "homepage": "https://github.com/bloodwraith8851",
+  "homepage": "https://bloodwraith8851.github.io",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
