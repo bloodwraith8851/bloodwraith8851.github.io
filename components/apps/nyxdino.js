@@ -14,201 +14,68 @@ export class NyxDino extends Component {
         this.userPreferences = {};
         this.responsePersonality = ['epic', 'cool', 'awesome', 'legendary'];
 
+        // Initialize state
+        this.state = {
+            terminal: [],
+            aiMode: 'quantum',
+            theme: 'matrix',
+            neuralNetworkActive: true,
+            modelAccuracy: 0.0,
+            trainingProgress: 0,
+            welcomeMessageVisible: false,
+            cursorVisible: true,
+            activeRowId: 0,
+            quantumState: 'coherent',
+            adaptiveLevel: 1,
+            neuralSynergy: 0.0,
+            isInitialized: false
+        };
+
         // Define qaMap as a class property
         this.qaMap = [
             {
-                keywords: ['hello', 'hi', 'hey', 'yo', 'sup', 'greetings', 'welcome', ''],
-                answer: React.createElement('div', { className: 'bg-gray-800 border border-cyan-400 rounded p-4 space-y-4' },
-                    React.createElement('div', { className: 'text-center' },
-                        React.createElement('div', { className: 'text-6xl mb-2' }, '🦖'),
-                        React.createElement('div', { className: 'text-2xl font-bold text-cyan-300' }, 'Hello! Welcome to NyxDino AI')
-                    ),
-                    React.createElement('div', { className: 'text-center text-gray-300' },
-                        'I\'m your intelligent assistant, ready to tell you all about Dino!'
-                    ),
-                    React.createElement('div', { className: 'grid grid-cols-2 gap-4' },
-                        React.createElement('div', { className: 'bg-blue-900 bg-opacity-50 p-4 rounded-lg' },
-                            React.createElement('div', { className: 'font-bold text-blue-300 mb-2' }, '🎯 Popular Topics'),
-                            React.createElement('ul', { className: 'list-disc list-inside text-gray-200 space-y-1' },
-                                React.createElement('li', {}, 'AI/ML Projects'),
-                                React.createElement('li', {}, 'Education at DTU'),
-                                React.createElement('li', {}, 'Technical Skills'),
-                                React.createElement('li', {}, 'Work Experience')
-                            )
-                        ),
-                        React.createElement('div', { className: 'bg-purple-900 bg-opacity-50 p-4 rounded-lg' },
-                            React.createElement('div', { className: 'font-bold text-purple-300 mb-2' }, '🤖 Also Ask About'),
-                            React.createElement('ul', { className: 'list-disc list-inside text-gray-200 space-y-1' },
-                                React.createElement('li', {}, 'Favorite Books'),
-                                React.createElement('li', {}, 'Future Goals'),
-                                React.createElement('li', {}, 'Coding Tips'),
-                                React.createElement('li', {}, 'Hobbies & Fun')
-                            )
-                        )
-                    ),
-                    React.createElement('div', { className: 'text-center text-yellow-300 text-sm mt-4' },
-                        '💡 Try asking any question about these topics!'
-                    ),
-                    React.createElement('div', { className: 'text-center text-green-300 text-xs' },
-                        '🔥 Powered by Machine Learning & Neural Networks'
-                    )
-                )
+                keywords: ['hello', 'hi', 'hey', 'yo', 'sup', 'greetings', 'welcome', 'hola', 'howdy', 'good morning', 'good afternoon', 'good evening'],
+                answer: this.getWelcomeResponse
             },
             {
                 keywords: ['education', 'study', 'college', 'university', 'dtu', 'academic', 'school', 'degree', 'course', 'student', 'studying', 'where do you study', 'what university', 'which college'],
-                answer: React.createElement('div', { className: 'bg-gray-800 border border-cyan-400 rounded p-4' },
-                    React.createElement('div', { className: 'text-2xl font-bold mb-3' }, '🎓 Educational Journey'),
-                    React.createElement('div', { className: 'bg-blue-900 bg-opacity-50 rounded p-4 mb-3' },
-                        React.createElement('div', { className: 'text-xl text-blue-300 mb-2' }, 'Delhi Technological University (DTU)'),
-                        React.createElement('div', { className: 'text-gray-200' }, 'BTech in Artificial Intelligence'),
-                        React.createElement('div', { className: 'text-yellow-300' }, '2nd Year | GPA: 8.7')
-                    ),
-                    React.createElement('div', { className: 'grid grid-cols-2 gap-3' },
-                        React.createElement('div', { className: 'bg-purple-900 bg-opacity-50 p-3 rounded' },
-                            React.createElement('div', { className: 'font-bold text-purple-300 mb-2' }, 'Key Courses'),
-                            React.createElement('ul', { className: 'list-disc list-inside text-gray-200 text-sm' },
-                                React.createElement('li', {}, 'Machine Learning'),
-                                React.createElement('li', {}, 'Neural Networks'),
-                                React.createElement('li', {}, 'Computer Vision'),
-                                React.createElement('li', {}, 'Data Structures')
-                            )
-                        ),
-                        React.createElement('div', { className: 'bg-green-900 bg-opacity-50 p-3 rounded' },
-                            React.createElement('div', { className: 'font-bold text-green-300 mb-2' }, 'Achievements'),
-                            React.createElement('ul', { className: 'list-disc list-inside text-gray-200 text-sm' },
-                                React.createElement('li', {}, 'DTU AI Hackathon Winner'),
-                                React.createElement('li', {}, 'Top 5% in class'),
-                                React.createElement('li', {}, 'Research Publication')
-                            )
-                        )
-                    ),
-                    React.createElement('div', { className: 'mt-3 text-gray-300 text-sm text-center' },
-                        '💡 Passionate about applying AI concepts to real-world problems!'
-                    )
-                )
+                answer: this.getEducationResponse
             },
             {
                 keywords: ['who is dino', 'about dino', 'tell me about dino', 'introduce dino'],
-                answer: React.createElement('div', { className: 'bg-gray-800 border border-cyan-400 rounded p-4' },
-                    React.createElement('div', { className: 'text-2xl font-bold mb-3' }, '🦖 Meet Dino!'),
-                    React.createElement('div', { className: 'text-yellow-300 mb-3' }, 'A 19-year-old AI prodigy from Delhi, pursuing BTech in AI at DTU'),
-                    React.createElement('div', { className: 'grid grid-cols-2 gap-4 mb-3' },
-                        React.createElement('div', { className: 'bg-blue-900 bg-opacity-50 p-3 rounded' },
-                            React.createElement('div', { className: 'font-bold text-blue-300 mb-2' }, '💼 Professional'),
-                            React.createElement('div', { className: 'text-gray-200' }, 'Junior Software Developer (Part-time)')
-                        ),
-                        React.createElement('div', { className: 'bg-purple-900 bg-opacity-50 p-3 rounded' },
-                            React.createElement('div', { className: 'font-bold text-purple-300 mb-2' }, '🎯 Specialization'),
-                            React.createElement('div', { className: 'text-gray-200' }, 'AI/ML & Full-stack Development')
-                        )
-                    ),
-                    React.createElement('div', { className: 'text-green-300 text-sm mt-3' }, '🚀 Building the future with code and AI!')
-                )
+                answer: this.getAboutResponse
             },
             {
                 keywords: ['skills', 'expertise', 'technologies', 'tech stack', 'programming', 'what can you do'],
-                answer: React.createElement('div', { className: 'bg-gray-800 border border-cyan-400 rounded p-4' },
-                    React.createElement('div', { className: 'text-2xl font-bold mb-3' }, '🚀 Technical Arsenal'),
-                    React.createElement('div', { className: 'grid grid-cols-3 gap-3 mb-3' },
-                        React.createElement('div', { className: 'bg-blue-900 bg-opacity-50 p-3 rounded' },
-                            React.createElement('div', { className: 'font-bold text-blue-300 mb-2' }, 'AI/ML'),
-                            React.createElement('div', { className: 'text-gray-200 text-sm' }, 'TensorFlow, PyTorch, Scikit-learn, OpenCV')
-                        ),
-                        React.createElement('div', { className: 'bg-purple-900 bg-opacity-50 p-3 rounded' },
-                            React.createElement('div', { className: 'font-bold text-purple-300 mb-2' }, 'Frontend'),
-                            React.createElement('div', { className: 'text-gray-200 text-sm' }, 'React, Next.js, Flutter')
-                        ),
-                        React.createElement('div', { className: 'bg-green-900 bg-opacity-50 p-3 rounded' },
-                            React.createElement('div', { className: 'font-bold text-green-300 mb-2' }, 'Backend'),
-                            React.createElement('div', { className: 'text-gray-200 text-sm' }, 'Node.js, Python, Firebase')
-                        )
-                    ),
-                    React.createElement('div', { className: 'text-yellow-300 text-sm mt-2' }, '💡 Always learning and expanding this list!')
-                )
+                answer: this.getSkillsResponse
             },
             {
                 keywords: ['projects', 'portfolio', 'work', 'built', 'created', 'show projects'],
-                answer: React.createElement('div', { className: 'bg-gray-800 border border-cyan-400 rounded p-4' },
-                    React.createElement('div', { className: 'text-2xl font-bold mb-3' }, '🛠️ Project Showcase'),
-                    React.createElement('div', { className: 'space-y-3' },
-                        React.createElement('div', { className: 'bg-blue-900 bg-opacity-50 p-3 rounded' },
-                            React.createElement('div', { className: 'font-bold text-blue-300' }, 'NyxDino AI Assistant'),
-                            React.createElement('div', { className: 'text-gray-200' }, 'Advanced AI chatbot with neural capabilities'),
-                            React.createElement('div', { className: 'text-yellow-300 text-sm' }, 'Tech: React, TensorFlow, NLP')
-                        ),
-                        React.createElement('div', { className: 'bg-purple-900 bg-opacity-50 p-3 rounded' },
-                            React.createElement('div', { className: 'font-bold text-purple-300' }, 'Smart Image Recognition'),
-                            React.createElement('div', { className: 'text-gray-200' }, 'Computer vision system using CNNs'),
-                            React.createElement('div', { className: 'text-yellow-300 text-sm' }, 'Tech: Python, OpenCV, PyTorch')
-                        ),
-                        React.createElement('div', { className: 'bg-green-900 bg-opacity-50 p-3 rounded' },
-                            React.createElement('div', { className: 'font-bold text-green-300' }, 'Analytics Dashboard'),
-                            React.createElement('div', { className: 'text-gray-200' }, 'ML-powered real-time analytics'),
-                            React.createElement('div', { className: 'text-yellow-300 text-sm' }, 'Tech: React, Python, D3.js')
-                        )
-                    )
-                )
+                answer: this.getProjectsResponse
             },
             {
                 keywords: ['hobbies', 'free time', 'what do you do for fun', 'pastime', 'interests outside coding'],
-                answer: React.createElement('div', { className: 'bg-gray-800 border border-purple-400 rounded p-4' },
-                    React.createElement('div', { className: 'text-2xl font-bold mb-3' }, '🎮 Hobbies & Fun'),
-                    React.createElement('div', { className: 'text-gray-300 mb-2' }, 'When not coding, Dino enjoys:'),
-                    React.createElement('ul', { className: 'list-disc list-inside text-blue-300' },
-                        React.createElement('li', {}, 'Playing chess ♟️'),
-                        React.createElement('li', {}, 'Reading sci-fi books 📚'),
-                        React.createElement('li', {}, 'Listening to synthwave music 🎶'),
-                        React.createElement('li', {}, 'Gaming (strategy & puzzle games) 🎮'),
-                        React.createElement('li', {}, 'Exploring new tech gadgets 🕹️')
-                    )
-                )
+                answer: this.getHobbiesResponse
             },
             {
                 keywords: ['favorite book', 'books', 'reading list', 'recommend a book', 'book suggestion'],
-                answer: React.createElement('div', { className: 'bg-gray-800 border border-green-400 rounded p-4' },
-                    React.createElement('div', { className: 'text-2xl font-bold mb-3' }, '📚 Favorite Books'),
-                    React.createElement('div', { className: 'text-gray-300 mb-2' }, 'Dino recommends:'),
-                    React.createElement('ul', { className: 'list-disc list-inside text-yellow-300' },
-                        React.createElement('li', {}, 'Hands-On Machine Learning by Aurélien Géron'),
-                        React.createElement('li', {}, 'Deep Learning by Ian Goodfellow'),
-                        React.createElement('li', {}, 'Pattern Recognition and Machine Learning by Bishop'),
-                        React.createElement('li', {}, 'The Elements of Statistical Learning')
-                    )
-                )
+                answer: this.getBooksResponse
             },
             {
                 keywords: ['future goals', 'where do you see yourself', 'plans for future', 'ambitions', 'dream job'],
-                answer: React.createElement('div', { className: 'bg-gray-800 border border-blue-400 rounded p-4' },
-                    React.createElement('div', { className: 'text-2xl font-bold mb-3' }, '🚀 Future Goals & Ambitions'),
-                    React.createElement('div', { className: 'text-gray-300 mb-2' }, 'Dino aspires to:'),
-                    React.createElement('ul', { className: 'list-disc list-inside text-green-300' },
-                        React.createElement('li', {}, 'Lead an innovative AI startup'),
-                        React.createElement('li', {}, 'Publish research in top AI journals'),
-                        React.createElement('li', {}, 'Speak at global tech conferences'),
-                        React.createElement('li', {}, 'Mentor the next generation of AI devs')
-                    )
-                )
+                answer: this.getFutureGoalsResponse
             },
             {
                 keywords: ['favorite programming language', 'best language', 'which language do you like', 'preferred language'],
-                answer: React.createElement('div', { className: 'bg-gray-800 border border-yellow-400 rounded p-4' },
-                    React.createElement('div', { className: 'text-2xl font-bold mb-3' }, '💻 Favorite Programming Language'),
-                    React.createElement('div', { className: 'text-gray-300 mb-2' }, 'Dino loves Python for its simplicity and power in AI/ML!'),
-                    React.createElement('div', { className: 'text-blue-300' }, 'Other favorites: JavaScript (React), C++, and Dart (Flutter)')
-                )
+                answer: this.getFavoriteLanguageResponse
             },
             {
-                keywords: ['advice for beginners', 'how to start coding', 'tips for learning programming', 'beginner advice', 'how to get into ai'],
-                answer: React.createElement('div', { className: 'bg-gray-800 border border-pink-400 rounded p-4' },
-                    React.createElement('div', { className: 'text-2xl font-bold mb-3' }, '🌱 Advice for Beginners'),
-                    React.createElement('ul', { className: 'list-disc list-inside text-pink-300' },
-                        React.createElement('li', {}, 'Start with Python – it\'s beginner-friendly!'),
-                        React.createElement('li', {}, 'Build small projects to learn by doing'),
-                        React.createElement('li', {}, 'Read code from open-source projects'),
-                        React.createElement('li', {}, 'Join coding communities and ask questions'),
-                        React.createElement('li', {}, 'Stay curious and never stop learning!')
-                    )
-                )
+                keywords: ['github', 'repos', 'repositories', 'show github', 'github profile', 'code projects', 'open source'],
+                answer: this.getGitHubResponse
+            },
+            {
+                keywords: ['social', 'contact', 'instagram', 'discord', 'email', 'spotify', 'how to reach', 'connect'],
+                answer: this.getSocialResponse
             }
         ];
 
@@ -267,91 +134,53 @@ export class NyxDino extends Component {
         // --- BEGIN: Enhanced Personal Info ---
         this.personalInfo = {
             name: "Dino",
-            username: "DinoAI_Dev",
-            age: 19,
-            location: "Delhi, India",
-            education: {
-                completed: "12th Grade",
-                current: "BTech in AI at DTU (Delhi Technological University)",
-                year: "2nd Year",
-                specialization: "Artificial Intelligence & Machine Learning",
-                gpa: 8.7,
-                courses: ["Machine Learning", "Deep Learning", "Neural Networks", "Computer Vision", "NLP", "Data Structures", "Algorithms"]
-            },
-            work: {
-                current: "Junior Software Developer (Part-time)",
-                focus: "Full-stack development with AI integration",
-                experience: "1.5 years",
-                technologies: ["Python", "React", "Node.js", "TensorFlow", "PyTorch"]
-            },
+            username: "bloodwraith8851",
+            location: "India",
             skills: [
-                "Machine Learning", "Deep Learning", "Neural Networks", "Computer Vision",
-                "Natural Language Processing", "Python", "TensorFlow", "PyTorch",
-                "React.js", "Node.js", "Express.js", "MongoDB", "PostgreSQL",
-                "Flutter", "Firebase", "Docker", "Kubernetes", "Git/GitHub",
-                "Data Science", "Statistical Analysis", "Algorithm Design"
+                // Languages
+                "JavaScript", "TypeScript", "Python", "C#", "C++", "PHP", "Ruby", "Rust", "Go",
+                // Frontend
+                "React", "Angular", "HTML5", "CSS3",
+                // Backend & Databases
+                "Node.js", "Django", "FastAPI", "PostgreSQL", "MongoDB", "Firebase",
+                // Cloud & DevOps
+                "AWS", "Google Cloud", "Docker", "GitHub",
+                // Data Science
+                "NumPy",
+                // Tools & Others
+                "Figma", "npm", "Debian"
             ],
             skillLevels: {
-                "Machine Learning": 9.2,
-                "Deep Learning": 8.8,
-                "Python": 9.5,
-                "React.js": 8.7,
-                "TensorFlow": 8.9,
-                "Neural Networks": 9.0
+                "JavaScript": 9.0,
+                "Python": 8.8,
+                "React": 8.5,
+                "Node.js": 8.7,
+                "AWS": 8.2,
+                "Docker": 8.0
             },
-            languages: ["Python", "JavaScript", "Java", "C++", "Dart", "SQL", "R"],
-            frameworks: ["TensorFlow", "PyTorch", "Scikit-learn", "OpenCV", "React", "Flutter", "Express"],
-            projects: [
-                {
-                    name: "NyxDino-AI-Assistant",
-                    description: "Advanced AI assistant with neural network capabilities",
-                    technologies: ["React", "Python", "TensorFlow", "NLP"],
-                    complexity: 9.1,
-                    impact: "High"
-                },
-                {
-                    name: "Smart-Image-Recognition-System",
-                    description: "Computer vision system using CNNs",
-                    technologies: ["Python", "OpenCV", "PyTorch"],
-                    complexity: 8.7,
-                    impact: "Medium"
-                },
-                {
-                    name: "Predictive-Analytics-Dashboard",
-                    description: "ML-powered analytics with real-time predictions",
-                    technologies: ["Python", "Scikit-learn", "React", "D3.js"],
-                    complexity: 8.9,
-                    impact: "High"
-                }
-            ],
-            interests: [
-                "Artificial Intelligence", "Machine Learning", "Deep Learning",
-                "Computer Vision", "Natural Language Processing", "Robotics",
-                "Data Science", "Quantum Computing", "Blockchain", "Cybersecurity"
-            ],
-            books: [
-                "Hands-On Machine Learning - Aurélien Géron",
-                "Pattern Recognition and Machine Learning - Christopher Bishop",
-                "Deep Learning - Ian Goodfellow",
-                "The Elements of Statistical Learning"
-            ],
+            languages: ["JavaScript", "TypeScript", "Python", "C#", "C++", "PHP", "Ruby", "Rust", "Go"],
+            frameworks: ["React", "Angular", "Node.js", "Django", "FastAPI"],
             social: {
-                github: "https://github.com/DinoAI_Dev",
-                linkedin: "https://linkedin.com/in/dino-ai-developer",
-                twitter: "https://twitter.com/DinoAI_Dev",
-                portfolio: "https://dino-ai-portfolio.dev",
-                blog: "https://dino-ai-blog.dev",
-                youtube: "https://youtube.com/@DinoAI_Dev"
+                github: "https://github.com/bloodwraith8851",
+                instagram: "https://www.instagram.com/the.end_giveup",
+                discord: "https://discord.com/users/829301078687612938",
+                email: "rakeshsarkar9711@gmail.com",
+                spotify: "https://open.spotify.com/user/31w74gdjgusjsrddzpf7xbysvsgi"
             },
-            achievements: [
-                "🏆 Won DTU AI Hackathon 2024",
-                "🎯 Built 15+ ML/AI Projects",
-                "💼 Working as Junior Dev while studying",
-                "🧠 Expert in Multiple AI Frameworks",
-                "📚 Self-taught ML Engineer",
-                "🚀 Created NyxDino AI Assistant"
-            ],
-            personality: "A passionate AI enthusiast and software developer who lives and breathes technology. Always pushing the boundaries of what's possible with AI and machine learning!"
+            work: {
+                current: "Full Stack Developer",
+                focus: "Web Development & Cloud Technologies",
+                technologies: ["React", "Node.js", "AWS", "Docker", "MongoDB"]
+            },
+            interests: [
+                "Full Stack Development",
+                "Cloud Computing",
+                "DevOps",
+                "Database Management",
+                "UI/UX Design",
+                "Data Science",
+                "Open Source"
+            ]
         };
         // --- END: Enhanced Personal Info ---
 
@@ -370,16 +199,6 @@ export class NyxDino extends Component {
                     totalRelationships: 0
                 }
             }
-        };
-
-        this.state = {
-            terminal: [],
-            aiMode: 'neural', // now supports: normal, learning, creative, neural
-            theme: 'matrix',
-            neuralNetworkActive: true,
-            modelAccuracy: 0.0,
-            trainingProgress: 0,
-            welcomeMessageVisible: false
         };
 
         // Add new categories to the neural network
@@ -411,73 +230,135 @@ export class NyxDino extends Component {
                 "Participating in hackathons and competitions 🏃‍♂️"
             ]
         };
+
+        // Enhanced AI Modes Configuration
+        this.aiModes = {
+            quantum: {
+                name: 'Quantum AI',
+                description: 'Quantum-inspired processing for multidimensional analysis',
+                features: [
+                    'Quantum State Processing',
+                    'Superposition Analysis',
+                    'Quantum Entanglement Patterns',
+                    'Wave Function Optimization'
+                ],
+                capabilities: {
+                    processingSpeed: 'Quantum-accelerated',
+                    accuracy: 0.99,
+                    dimensionality: 'Multi-dimensional',
+                    adaptability: 'Self-evolving'
+                }
+            },
+            neural: {
+                name: 'Neural Nexus',
+                description: 'Advanced neural network with dynamic synaptic mapping',
+                features: [
+                    'Dynamic Neural Mapping',
+                    'Synaptic Pattern Recognition',
+                    'Cognitive Enhancement',
+                    'Neural Plasticity'
+                ],
+                capabilities: {
+                    processingSpeed: 'Bio-inspired',
+                    accuracy: 0.95,
+                    dimensionality: 'Neural-mapped',
+                    adaptability: 'Self-learning'
+                }
+            },
+            cybernetic: {
+                name: 'Cybernetic Core',
+                description: 'Hybrid human-machine intelligence optimization',
+                features: [
+                    'Human-AI Synergy',
+                    'Cybernetic Enhancement',
+                    'Augmented Intelligence',
+                    'Neural Interface'
+                ],
+                capabilities: {
+                    processingSpeed: 'Augmented',
+                    accuracy: 0.97,
+                    dimensionality: 'Multi-modal',
+                    adaptability: 'Symbiotic'
+                }
+            },
+            heuristic: {
+                name: 'Heuristic Matrix',
+                description: 'Advanced problem-solving with evolutionary algorithms',
+                features: [
+                    'Evolutionary Computing',
+                    'Genetic Algorithms',
+                    'Swarm Intelligence',
+                    'Adaptive Heuristics'
+                ],
+                capabilities: {
+                    processingSpeed: 'Evolutionary',
+                    accuracy: 0.93,
+                    dimensionality: 'Problem-space',
+                    adaptability: 'Self-optimizing'
+                }
+            }
+        };
+
+        // Enhanced query patterns
+        this.queryPatterns = {
+            skills: [
+                'skills', 'expertise', 'what can you do', 'technologies',
+                'tech stack', 'programming', 'languages', 'frameworks',
+                'what do you know', 'technical skills', 'coding skills'
+            ],
+            projects: [
+                'projects', 'portfolio', 'what have you built', 'show projects',
+                'github projects', 'work', 'applications', 'demos', 'showcase'
+            ],
+            education: [
+                'education', 'university', 'college', 'school', 'academic',
+                'study', 'degree', 'qualification', 'dtu', 'where did you study'
+            ],
+            contact: [
+                'contact', 'social', 'links', 'email', 'discord', 'instagram',
+                'how to reach', 'connect', 'dm', 'message', 'get in touch'
+            ],
+            experience: [
+                'experience', 'work history', 'job', 'career', 'professional',
+                'where do you work', 'employment', 'occupation'
+            ],
+            achievements: [
+                'achievements', 'awards', 'accomplishments', 'recognition',
+                'honors', 'accolades', 'what have you achieved'
+            ]
+        };
     }
 
     componentDidMount() {
-        this.initializeAI();
-        const welcomeMsg = React.createElement('div', { className: 'mb-4 animate-pulse' },
-            React.createElement('div', { className: 'text-center mb-4' },
-                React.createElement('div', { className: 'text-6xl mb-2' }, '🦖'),
-                React.createElement('div', { className: 'text-green-400 text-2xl font-bold mb-2 animate-bounce' },
-                    React.createElement('div', {}, '╔═══════════════════════════════════════╗'),
-                    React.createElement('div', {}, '║    🤖 NYXDINO AI v2.0 INITIALIZED    ║'),
-                    React.createElement('div', {}, '╚═══════════════════════════════════════╝')
-                )
-            ),
-            React.createElement('div', { className: 'bg-gray-800 border border-green-400 rounded-lg p-4 mb-4' },
-                React.createElement('div', { className: 'text-cyan-300 text-lg font-bold mb-2' }, '🧠 Advanced AI Assistant Activated!'),
-                React.createElement('div', { className: 'text-blue-300 mb-2' }, 'Hey there! I\'m NyxDino, your super-intelligent AI buddy! 🚀'),
-                React.createElement('div', { className: 'text-yellow-300 mb-2' }, 'I know EVERYTHING about Dino - the AI wizard from Delhi! ✨'),
-                React.createElement('div', { className: 'text-purple-300 mb-3' }, '🔥 Powered by Machine Learning & Neural Networks!')
-            ),
-            React.createElement('div', { className: 'grid grid-cols-2 gap-4 mb-4' },
-                React.createElement('div', { className: 'bg-blue-900 border border-blue-400 rounded p-3' },
-                    React.createElement('div', { className: 'text-blue-300 font-bold mb-2' }, '🎯 Quick Fire Questions:'),
-                    React.createElement('div', { className: 'text-gray-300 text-sm' },
-                        React.createElement('div', {}, '• "Who is Dino?"'),
-                        React.createElement('div', {}, '• "What AI projects has he built?"'),
-                        React.createElement('div', {}, '• "Where does he work?"'),
-                        React.createElement('div', {}, '• "Show me his skills"')
-                    )
-                ),
-                React.createElement('div', { className: 'bg-purple-900 border border-purple-400 rounded p-3' },
-                    React.createElement('div', { className: 'text-purple-300 font-bold mb-2' }, '🚀 Advanced Queries:'),
-                    React.createElement('div', { className: 'text-gray-300 text-sm' },
-                        React.createElement('div', {}, '• "Analyze his expertise"'),
-                        React.createElement('div', {}, '• "Compare his projects"'),
-                        React.createElement('div', {}, '• "Predict his future"'),
-                        React.createElement('div', {}, '• "Rate his skills"')
-                    )
-                )
-            ),
-            React.createElement('div', { className: 'bg-green-900 border border-green-400 rounded p-3 mb-4' },
-                React.createElement('div', { className: 'text-green-300 font-bold mb-2' }, '🤖 AI Features Enabled:'),
-                React.createElement('div', { className: 'flex flex-wrap gap-2' },
-                    React.createElement('span', { className: 'bg-green-600 px-2 py-1 rounded text-xs' }, 'Machine Learning'),
-                    React.createElement('span', { className: 'bg-blue-600 px-2 py-1 rounded text-xs' }, 'Pattern Recognition'),
-                    React.createElement('span', { className: 'bg-purple-600 px-2 py-1 rounded text-xs' }, 'Sentiment Analysis'),
-                    React.createElement('span', { className: 'bg-yellow-600 px-2 py-1 rounded text-xs' }, 'Smart Responses'),
-                    React.createElement('span', { className: 'bg-pink-600 px-2 py-1 rounded text-xs' }, 'Learning Engine')
-                )
-            ),
-            React.createElement('div', { className: 'text-center' },
-                React.createElement('div', { className: 'text-cyan-400 font-bold' }, '💬 Type \'help\' for commands or just ask me anything!'),
-                React.createElement('div', { className: 'text-gray-400 text-sm mt-1' }, 'I get smarter with every conversation! 🧠✨')
-            ),
-            React.createElement('div', { className: 'border-t border-gray-600 mt-4 pt-2' })
-        );
-
-        this.setState({
-            terminal: [welcomeMsg],
-            welcomeMessageVisible: true
-        }, () => {
-            this.appendTerminalRow();
-        });
+        if (!this.state.isInitialized) {
+            // Initialize the terminal with welcome message
+            const welcomeMsg = this.getWelcomeResponse();
+            this.setState({
+                terminal: [welcomeMsg],
+                welcomeMessageVisible: true,
+                isInitialized: true
+            }, () => {
+                requestAnimationFrame(() => {
+                    this.appendTerminalRow();
+                    // Initialize AI components
+                    this.initializeAI();
+                    this.initializeNeuralNetwork();
+                    this.trainDeepLearningModels();
+                });
+            });
+        }
     }
 
-    componentDidUpdate() {
-        clearInterval(this.cursor);
-        this.startCursor(this.terminal_rows - 1);
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.terminal.length !== this.state.terminal.length) {
+            // Only start cursor for new terminal rows
+            const lastRowId = this.terminal_rows - 1;
+            if (lastRowId >= 0) {
+                requestAnimationFrame(() => {
+                    this.startCursor(lastRowId);
+                });
+            }
+        }
     }
 
     componentWillUnmount() {
@@ -514,43 +395,58 @@ export class NyxDino extends Component {
     }
 
     appendTerminalRow = () => {
-        let terminal = [...this.state.terminal];
-        terminal.push(this.terminalRow(this.terminal_rows));
-        this.setState({ terminal }, () => {
-            this.startCursor(this.terminal_rows);
+        this.setState(prevState => ({
+            terminal: [...prevState.terminal, this.terminalRow(this.terminal_rows)]
+        }), () => {
+            this.terminal_rows += 1;
         });
-        this.terminal_rows += 1;
-    }
+    };
 
     terminalRow = (id) => {
-        return React.createElement(React.Fragment, { key: id },
-            React.createElement('div', { className: 'flex w-full h-6 items-center' },
-                React.createElement('div', { className: 'flex items-center' },
-                    React.createElement('div', { className: 'text-green-400 font-bold' }, '🦖 NyxDino'),
-                    React.createElement('div', { className: 'text-white mx-1 font-medium' }, ':'),
-                    React.createElement('div', { className: 'text-cyan-400 font-bold' }, 'AI-Brain'),
-                    React.createElement('div', { className: 'text-white mx-1 font-medium' }, '>'),
-                    React.createElement('div', { className: 'text-yellow-400 mr-2' }, '$')
-                ),
-                React.createElement('div', { className: 'bg-transparent relative flex-1 overflow-hidden', onClick: () => this.focusCursor(id) },
-                    React.createElement('span', { id: `show-${id}`, className: 'float-left whitespace-pre pb-1 opacity-100 font-normal tracking-wider text-white' }),
-                    React.createElement('div', { id: `cursor-${id}`, className: 'float-left mt-1 w-2 h-4 bg-green-400 rounded animate-pulse' }),
-                    React.createElement('input', {
-                        id: `terminal-input-${id}`,
-                        'data-row-id': id,
-                        onKeyDown: this.checkKey,
-                        onBlur: () => this.unFocusCursor(id),
-                        className: 'absolute top-0 left-0 w-full opacity-0 outline-none bg-transparent',
-                        spellCheck: false,
-                        autoFocus: true,
-                        autoComplete: 'off',
-                        type: 'text'
-                    })
-                )
-            ),
-            React.createElement('div', { id: `row-result-${id}`, className: 'my-3 font-normal' })
+        return (
+            <div key={`terminal-${id}`} className="mb-2">
+                <div className="flex w-full h-6 items-center">
+                    <div className="flex items-center">
+                        <div className="text-green-400 font-bold">🦖 NyxDino</div>
+                        <div className="text-white mx-1 font-medium">:</div>
+                        <div className="text-cyan-400 font-bold">AI-Brain</div>
+                        <div className="text-white mx-1 font-medium">{'>'}</div>
+                        <div className="text-yellow-400 mr-2">$</div>
+                    </div>
+                    <div className="bg-transparent relative flex-1 overflow-hidden">
+                        <div className="flex">
+                            <span 
+                                id={`show-${id}`}
+                                className="float-left whitespace-pre pb-1 opacity-100 font-normal tracking-wider text-white"
+                            />
+                            <div 
+                                id={`cursor-${id}`}
+                                className="float-left mt-1 w-2 h-4 bg-green-400"
+                                style={{ visibility: 'visible' }}
+                            />
+                        </div>
+                        <input
+                            id={`terminal-input-${id}`}
+                            data-row-id={id}
+                            onKeyDown={this.checkKey}
+                            onBlur={() => this.unFocusCursor(id)}
+                            onChange={(e) => {
+                                const showElement = document.getElementById(`show-${id}`);
+                                if (showElement) {
+                                    showElement.textContent = e.target.value;
+                                }
+                            }}
+                            className="absolute top-0 left-0 w-full opacity-0 outline-none bg-transparent"
+                            spellCheck={false}
+                            autoFocus
+                            autoComplete="off"
+                            type="text"
+                        />
+                    </div>
+                </div>
+            </div>
         );
-    }
+    };
 
     focusCursor = (id) => {
         clearInterval(this.cursor);
@@ -563,30 +459,38 @@ export class NyxDino extends Component {
 
     startCursor = (id) => {
         clearInterval(this.cursor);
-        $(`input#terminal-input-${id}`).trigger("focus");
+        
+        // Focus the input
+        const input = document.getElementById(`terminal-input-${id}`);
+        if (input) {
+            input.focus();
+        }
 
-        $(`input#terminal-input-${id}`).on("input", function () {
-            $(`#show-${id}`).text($(this).val());
-        });
-
-        this.cursor = window.setInterval(function () {
-            if ($(`#cursor-${id}`).css('visibility') === 'visible') {
-                $(`#cursor-${id}`).css({ visibility: 'hidden' });
-            } else {
-                $(`#cursor-${id}`).css({ visibility: 'visible' });
+        // Handle cursor blinking
+        this.cursor = window.setInterval(() => {
+            const cursorElement = document.getElementById(`cursor-${id}`);
+            if (cursorElement) {
+                cursorElement.style.visibility = 
+                    cursorElement.style.visibility === 'hidden' ? 'visible' : 'hidden';
             }
         }, 500);
-    }
+    };
 
     stopCursor = (id) => {
         clearInterval(this.cursor);
-        $(`#cursor-${id}`).css({ visibility: 'visible' });
-    }
+        const cursorElement = document.getElementById(`cursor-${id}`);
+        if (cursorElement) {
+            cursorElement.style.visibility = 'visible';
+        }
+    };
 
     removeCursor = (id) => {
-        this.stopCursor(id);
-        $(`#cursor-${id}`).css({ display: 'none' });
-    }
+        clearInterval(this.cursor);
+        const cursorElement = document.getElementById(`cursor-${id}`);
+        if (cursorElement) {
+            cursorElement.style.visibility = 'hidden';
+        }
+    };
 
     clearInput = (id) => {
         $(`input#terminal-input-${id}`).trigger("blur");
@@ -627,81 +531,94 @@ export class NyxDino extends Component {
     }
 
     processQuery = async (query, rowId) => {
-        this.learnFromQuery(query);
+        try {
+            this.removeCursor(rowId);
+            this.prev_commands.push(query);
+            this.commands_index = this.prev_commands.length - 1;
 
-        const lowerQuery = query.toLowerCase();
-        let response = "";
+            // Handle empty queries
+            if (!query.trim()) {
+                this.appendTerminalRow();
+                return;
+            }
 
-        // System commands
-        if (lowerQuery === "help") {
-            response = this.getHelpMessage();
-        }
-        else if (lowerQuery === "clear") {
-            this.startNyxDino();
-            return;
-        }
-        else if (lowerQuery.includes("exit") || lowerQuery.includes("quit")) {
-            response = this.getExitMessage();
-        }
-        else if (lowerQuery.includes("ai mode") || lowerQuery.includes("switch mode")) {
-            response = this.switchAIMode();
-        }
-        else if (lowerQuery.includes("stats") || lowerQuery.includes("analytics")) {
-            response = this.getAnalytics();
-        }
-        else if (lowerQuery.includes("show achievements") || lowerQuery.includes("achievements") || lowerQuery.includes("what are your achievements")) {
-            response = React.createElement('div', { className: 'bg-gray-800 border border-yellow-400 rounded p-4' },
-                React.createElement('div', { className: 'text-2xl font-bold mb-3 text-yellow-300' }, '🏆 Achievements & Milestones'),
-                React.createElement('div', { className: 'space-y-3' },
-                    React.createElement('div', { className: 'bg-yellow-900 bg-opacity-50 p-3 rounded' },
-                        React.createElement('div', { className: 'font-bold text-yellow-300 mb-2' }, '🎓 Academic Excellence'),
-                        React.createElement('ul', { className: 'list-disc list-inside text-gray-200' },
-                            React.createElement('li', {}, 'Top 5% in BTech AI at DTU'),
-                            React.createElement('li', {}, 'GPA: 8.7/10'),
-                            React.createElement('li', {}, 'Published Research Paper in AI')
-                        )
-                    ),
-                    React.createElement('div', { className: 'bg-blue-900 bg-opacity-50 p-3 rounded' },
-                        React.createElement('div', { className: 'font-bold text-blue-300 mb-2' }, '🚀 Technical Achievements'),
-                        React.createElement('ul', { className: 'list-disc list-inside text-gray-200' },
-                            React.createElement('li', {}, 'DTU AI Hackathon Winner 2024'),
-                            React.createElement('li', {}, 'Built 15+ Successful ML/AI Projects'),
-                            React.createElement('li', {}, 'Open Source Contributor to Major AI Projects')
-                        )
-                    ),
-                    React.createElement('div', { className: 'bg-purple-900 bg-opacity-50 p-3 rounded' },
-                        React.createElement('div', { className: 'font-bold text-purple-300 mb-2' }, '💼 Professional Growth'),
-                        React.createElement('ul', { className: 'list-disc list-inside text-gray-200' },
-                            React.createElement('li', {}, 'Junior Software Developer (Part-time)'),
-                            React.createElement('li', {}, 'AI Research Assistant at DTU'),
-                            React.createElement('li', {}, 'Technical Blog Writer with 10k+ Readers')
-                        )
-                    )
-                ),
-                React.createElement('div', { className: 'text-center mt-4' },
-                    React.createElement('div', { className: 'text-cyan-300 font-bold' }, '🎯 Always aiming higher!'),
-                    React.createElement('div', { className: 'text-gray-400 text-sm' }, 'Ask me about any of these achievements for more details!')
-                )
+            // Handle special commands
+            switch (query.toLowerCase().trim()) {
+                case 'clear':
+                    this.setState({ terminal: [] }, () => {
+                        this.terminal_rows = 0;
+                        this.appendTerminalRow();
+                    });
+                    return;
+
+                case 'help':
+                    const helpMessage = this.getHelpMessage();
+                    this.updateTerminalWithResponse(query, helpMessage, rowId);
+                    return;
+
+                case 'stats':
+                    const analytics = this.getAnalytics();
+                    this.updateTerminalWithResponse(query, analytics, rowId);
+                    return;
+
+                case 'exit':
+                    const exitMessage = this.getExitMessage();
+                    this.updateTerminalWithResponse(query, exitMessage, rowId);
+                    return;
+
+                case 'github':
+                    const githubResponse = await this.getGitHubResponse();
+                    this.updateTerminalWithResponse(query, githubResponse, rowId);
+                    return;
+
+                default:
+                    // Generate AI response for other queries
+                    const response = await this.generateAIResponse(query);
+                    this.updateTerminalWithResponse(query, response, rowId);
+                    return;
+            }
+
+        } catch (error) {
+            console.error('Error processing query:', error);
+            this.updateTerminalWithResponse(query, 
+                <div className="bg-gray-800 border border-red-400 rounded p-4">
+                    <div className="text-xl font-bold text-red-300 mb-2">
+                        ⚠️ Error Processing Request
+                    </div>
+                    <div className="text-gray-200">
+                        Sorry, I encountered an error. Please try again or use a different command.
+                    </div>
+                </div>,
+                rowId
             );
         }
-        // Try direct response first
-        else {
-            response = await this.generateAIResponse(lowerQuery);
-        }
+    };
 
-        // Render the React element into the result div
-        const resultElement = document.getElementById(`row-result-${rowId}`);
-        if (resultElement && response) {
-            try {
-                ReactDOM.render(response, resultElement);
+    updateTerminalWithResponse = (query, response, rowId) => {
+        this.setState(prevState => {
+            const updatedTerminal = [...prevState.terminal];
+            updatedTerminal[rowId] = (
+                <div key={`response-${rowId}`} className="mb-4">
+                    <div className="flex w-full h-6 items-center mb-2">
+                        <div className="flex items-center">
+                            <div className="text-green-400 font-bold">🦖 NyxDino</div>
+                            <div className="text-white mx-1 font-medium">:</div>
+                            <div className="text-cyan-400 font-bold">AI-Brain</div>
+                            <div className="text-white mx-1 font-medium">{'>'}</div>
+                            <div className="text-yellow-400 mr-2">$</div>
+                        </div>
+                        <div className="text-white">{query}</div>
+                    </div>
+                    <div className="ml-4">{response}</div>
+                </div>
+            );
+            return { terminal: updatedTerminal };
+        }, () => {
+            requestAnimationFrame(() => {
                 this.appendTerminalRow();
-            } catch (error) {
-                console.error('Error rendering response:', error);
-                resultElement.textContent = 'I understand your question. Let me help you with that!';
-                this.appendTerminalRow();
-            }
-        }
-    }
+            });
+        });
+    };
 
     // Machine Learning Functions
     learnFromQuery = (query) => {
@@ -743,65 +660,92 @@ export class NyxDino extends Component {
     }
 
     switchAIMode = () => {
-        const modes = ['normal', 'learning', 'creative', 'neural'];
+        const modes = Object.keys(this.aiModes);
         const currentIndex = modes.indexOf(this.state.aiMode);
         const nextIndex = (currentIndex + 1) % modes.length;
         const newMode = modes[nextIndex];
 
-        this.setState({ aiMode: newMode });
+        // Calculate new quantum state
+        const quantumStates = ['coherent', 'entangled', 'superposed', 'collapsed'];
+        const newQuantumState = quantumStates[Math.floor(Math.random() * quantumStates.length)];
 
-        const modeDescriptions = {
-            normal: 'Balanced and efficient responses optimized for general queries',
-            learning: 'Enhanced explanations and detailed insights for better understanding',
-            creative: 'More imaginative and engaging responses with unique perspectives',
-            neural: 'Advanced neural network processing for complex analysis'
-        };
+        // Update neural synergy
+        const newSynergy = Math.min(1, this.state.neuralSynergy + 0.1);
 
-        const modeFeatures = {
-            normal: ['Efficient Processing', 'Quick Responses', 'Core Knowledge Access'],
-            learning: ['Detailed Explanations', 'Step-by-Step Guidance', 'Enhanced Learning'],
-            creative: ['Unique Perspectives', 'Engaging Dialogue', 'Imaginative Solutions'],
-            neural: ['Deep Analysis', 'Pattern Recognition', 'Advanced Processing']
-        };
+        this.setState({
+            aiMode: newMode,
+            quantumState: newQuantumState,
+            neuralSynergy: newSynergy,
+            adaptiveLevel: Math.min(10, this.state.adaptiveLevel + 1)
+        });
 
-        return React.createElement('div', { className: 'bg-gray-800 border border-purple-400 rounded p-4' },
-            React.createElement('div', { className: 'text-2xl font-bold mb-3 text-purple-300' }, '🤖 AI Mode Switched!'),
-            React.createElement('div', { className: 'space-y-3' },
-                React.createElement('div', { className: 'bg-blue-900 bg-opacity-50 p-3 rounded' },
-                    React.createElement('div', { className: 'font-bold text-blue-300 mb-2' }, '🎯 New Mode Activated'),
-                    React.createElement('ul', { className: 'list-disc list-inside text-gray-200' },
-                        React.createElement('li', {}, 'Current Mode: ', React.createElement('span', { className: 'text-yellow-300' }, newMode.toUpperCase())),
-                        React.createElement('li', {}, 'Description: ', React.createElement('span', { className: 'text-yellow-300' }, modeDescriptions[newMode])),
-                        React.createElement('li', {}, 'Status: ', React.createElement('span', { className: 'text-yellow-300' }, 'Active and Ready ✨'))
-                    )
-                ),
-                React.createElement('div', { className: 'bg-green-900 bg-opacity-50 p-3 rounded' },
-                    React.createElement('div', { className: 'font-bold text-green-300 mb-2' }, '✨ Mode Features'),
-                    React.createElement('ul', { className: 'list-disc list-inside text-gray-200' },
-                        ...modeFeatures[newMode].map(feature =>
-                            React.createElement('li', { key: feature }, feature)
-                        )
-                    )
-                ),
-                React.createElement('div', { className: 'bg-purple-900 bg-opacity-50 p-3 rounded' },
-                    React.createElement('div', { className: 'font-bold text-purple-300 mb-2' }, '🔄 Available Modes'),
-                    React.createElement('ul', { className: 'list-disc list-inside text-gray-200' },
-                        modes.map(mode =>
-                            React.createElement('li', { key: mode },
-                                mode === newMode ?
-                                    React.createElement('span', { className: 'text-yellow-300' }, '▶ ' + mode.toUpperCase() + ' (Current)') :
-                                    mode.toUpperCase()
-                            )
-                        )
-                    )
-                )
-            ),
-            React.createElement('div', { className: 'text-center mt-4' },
-                React.createElement('div', { className: 'text-cyan-300 font-bold' }, '💡 Try asking a question to see the new mode in action!'),
-                React.createElement('div', { className: 'text-gray-400 text-sm' }, 'Each mode offers unique capabilities and response styles.')
-            )
+        return (
+            <div className="bg-gray-800 border border-purple-400 rounded p-4 space-y-4">
+                <div className="text-2xl font-bold text-purple-300 flex items-center justify-between">
+                    <span>🤖 AI Core Reconfigured</span>
+                    <span className="text-sm bg-purple-900 px-3 py-1 rounded-full">v{this.state.adaptiveLevel}.0</span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-blue-900 bg-opacity-50 p-4 rounded">
+                        <div className="text-cyan-300 font-bold mb-2">🎯 New Mode Activated</div>
+                        <div className="space-y-2">
+                            <div className="text-yellow-300 text-xl">{this.aiModes[newMode].name}</div>
+                            <div className="text-gray-300">{this.aiModes[newMode].description}</div>
+                        </div>
+                    </div>
+
+                    <div className="bg-purple-900 bg-opacity-50 p-4 rounded">
+                        <div className="text-purple-300 font-bold mb-2">💫 Quantum Matrix</div>
+                        <div className="space-y-2">
+                            <div className="text-blue-300">State: {this.state.quantumState}</div>
+                            <div className="text-green-300">Synergy: {(this.state.neuralSynergy * 100).toFixed(1)}%</div>
+                            <div className="text-yellow-300">Adaptation: Level {this.state.adaptiveLevel}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-green-900 bg-opacity-50 p-4 rounded">
+                    <div className="text-green-300 font-bold mb-2">✨ Enhanced Capabilities</div>
+                    <div className="grid grid-cols-2 gap-4">
+                        {Object.entries(this.aiModes[newMode].capabilities).map(([key, value]) => (
+                            <div key={key} className="bg-black bg-opacity-30 p-2 rounded">
+                                <div className="text-gray-400 text-sm">{key}</div>
+                                <div className="text-yellow-300">{value}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="bg-indigo-900 bg-opacity-50 p-4 rounded">
+                    <div className="text-indigo-300 font-bold mb-2">🔮 Neural Features</div>
+                    <div className="grid grid-cols-2 gap-2">
+                        {this.aiModes[newMode].features.map((feature, index) => (
+                            <div key={index} className="flex items-center space-x-2">
+                                <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></div>
+                                <div className="text-gray-300">{feature}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="mt-4 space-y-2">
+                    <div className="text-center text-cyan-300 font-bold">
+                        💡 AI Core Evolution: {(this.state.adaptiveLevel * 10)}% Complete
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-2">
+                        <div 
+                            className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-500"
+                            style={{ width: `${this.state.adaptiveLevel * 10}%` }}
+                        ></div>
+                    </div>
+                    <div className="text-center text-gray-400 text-sm">
+                        Next Evolution: {10 - this.state.adaptiveLevel} levels remaining
+                    </div>
+                </div>
+            </div>
         );
-    }
+    };
 
     getAnalytics = () => {
         const totalQueries = this.conversationHistory.length;
@@ -937,100 +881,115 @@ export class NyxDino extends Component {
 
     // Main AI response function (now async!)
     generateAIResponse = async (query) => {
-        const sentiment = this.analyzeSentiment(query);
-        const responseStyle = this.getResponseStyle(sentiment);
+        const { aiMode, quantumState, neuralSynergy, adaptiveLevel } = this.state;
+        const currentMode = this.aiModes[aiMode];
 
-        // Clean and normalize the query
-        const normalizedQuery = query.toLowerCase().trim();
-        console.log('Processing query:', normalizedQuery);
-
-        // Special handling for education-related queries
-        const educationPatterns = [
-            'where do you study',
-            'which university',
-            'what college',
-            'where school',
-            'education',
-            'study',
-            'university',
-            'college',
-            'dtu'
-        ];
-
-        // Check if query matches education patterns
-        const isEducationQuery = educationPatterns.some(pattern => 
-            normalizedQuery.includes(pattern) || 
-            pattern.split(' ').every(word => normalizedQuery.split(' ').includes(word))
-        );
-
-        if (isEducationQuery) {
-            console.log('Matched education query pattern');
-            return React.createElement('div', { className: 'bg-gray-800 border border-cyan-400 rounded p-4' },
-                React.createElement('div', { className: 'text-2xl font-bold mb-3' }, '🎓 Educational Journey'),
-                React.createElement('div', { className: 'bg-blue-900 bg-opacity-50 rounded p-4 mb-3' },
-                    React.createElement('div', { className: 'text-xl text-blue-300 mb-2' }, 'Delhi Technological University (DTU)'),
-                    React.createElement('div', { className: 'text-gray-200' }, 'BTech in Artificial Intelligence'),
-                    React.createElement('div', { className: 'text-yellow-300' }, '2nd Year | GPA: 8.7')
-                ),
-                React.createElement('div', { className: 'grid grid-cols-2 gap-3' },
-                    React.createElement('div', { className: 'bg-purple-900 bg-opacity-50 p-3 rounded' },
-                        React.createElement('div', { className: 'font-bold text-purple-300 mb-2' }, 'Key Courses'),
-                        React.createElement('ul', { className: 'list-disc list-inside text-gray-200 text-sm' },
-                            React.createElement('li', {}, 'Machine Learning'),
-                            React.createElement('li', {}, 'Neural Networks'),
-                            React.createElement('li', {}, 'Computer Vision'),
-                            React.createElement('li', {}, 'Data Structures')
-                        )
-                    ),
-                    React.createElement('div', { className: 'bg-green-900 bg-opacity-50 p-3 rounded' },
-                        React.createElement('div', { className: 'font-bold text-green-300 mb-2' }, 'Achievements'),
-                        React.createElement('ul', { className: 'list-disc list-inside text-gray-200 text-sm' },
-                            React.createElement('li', {}, 'DTU AI Hackathon Winner'),
-                            React.createElement('li', {}, 'Top 5% in class'),
-                            React.createElement('li', {}, 'Research Publication')
-                        )
-                    )
-                ),
-                React.createElement('div', { className: 'mt-3 text-gray-300 text-sm text-center' },
-                    '💡 Passionate about applying AI concepts to real-world problems!'
-                )
-            );
+        // Apply mode-specific processing
+        let enhancedResponse;
+        switch (aiMode) {
+            case 'quantum':
+                enhancedResponse = await this.processQuantumResponse(query, quantumState);
+                break;
+            case 'neural':
+                enhancedResponse = await this.processNeuralResponse(query, neuralSynergy);
+                break;
+            case 'cybernetic':
+                enhancedResponse = await this.processCyberneticResponse(query, adaptiveLevel);
+                break;
+            case 'heuristic':
+                enhancedResponse = await this.processHeuristicResponse(query);
+                break;
+            default:
+                enhancedResponse = await this.processStandardResponse(query);
         }
 
-        // Try to find a matching response from qaMap
-        for (const qa of this.qaMap) {
-            if (this.containsKeywords(normalizedQuery, qa.keywords)) {
-                console.log('Found matching keywords:', qa.keywords);
-                return qa.answer;
-            }
-        }
-
-        // If no match found, return the default response
-        return React.createElement('div', { className: 'bg-gray-800 border border-cyan-400 rounded p-4' },
-            React.createElement('div', { className: 'text-xl font-bold mb-3' }, '👋 Here\'s what I can tell you about!'),
-            React.createElement('div', { className: 'grid grid-cols-2 gap-4' },
-                React.createElement('div', { className: 'bg-blue-900 bg-opacity-50 p-3 rounded' },
-                    React.createElement('div', { className: 'font-bold text-blue-300 mb-2' }, 'Popular Topics'),
-                    React.createElement('ul', { className: 'list-disc list-inside text-gray-200 text-sm space-y-1' },
-                        React.createElement('li', {}, 'Skills & Technologies'),
-                        React.createElement('li', {}, 'Projects & Portfolio'),
-                        React.createElement('li', {}, 'Education at DTU'),
-                        React.createElement('li', {}, 'Work Experience')
-                    )
-                ),
-                React.createElement('div', { className: 'bg-purple-900 bg-opacity-50 p-3 rounded' },
-                    React.createElement('div', { className: 'font-bold text-purple-300 mb-2' }, 'Try asking'),
-                    React.createElement('ul', { className: 'list-disc list-inside text-gray-200 text-sm space-y-1' },
-                        React.createElement('li', {}, '"What are Dino\'s skills?"'),
-                        React.createElement('li', {}, '"Show me his projects"'),
-                        React.createElement('li', {}, '"Tell me about his education"'),
-                        React.createElement('li', {}, '"What\'s his work experience?"')
-                    )
-                )
-            ),
-            React.createElement('div', { className: 'text-cyan-300 text-sm mt-3 text-center' }, 'I\'m here to help! Just ask any of these questions or something similar.')
+        // Add futuristic visual elements
+        return (
+            <div className="space-y-4">
+                <div className="bg-gray-800 bg-opacity-50 p-4 rounded-lg border border-purple-400">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="text-purple-300 font-bold">{currentMode.name} Response</div>
+                        <div className="text-sm bg-purple-900 px-2 py-1 rounded-full text-purple-300">
+                            Accuracy: {(currentMode.capabilities.accuracy * 100).toFixed(1)}%
+                        </div>
+                    </div>
+                    {enhancedResponse}
+                </div>
+                
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                    <div className="bg-blue-900 bg-opacity-50 p-2 rounded">
+                        <div className="text-blue-300">Processing Mode</div>
+                        <div className="text-gray-300">{currentMode.capabilities.processingSpeed}</div>
+                    </div>
+                    <div className="bg-purple-900 bg-opacity-50 p-2 rounded">
+                        <div className="text-purple-300">Neural Synergy</div>
+                        <div className="text-gray-300">{(neuralSynergy * 100).toFixed(1)}%</div>
+                    </div>
+                    <div className="bg-green-900 bg-opacity-50 p-2 rounded">
+                        <div className="text-green-300">Quantum State</div>
+                        <div className="text-gray-300">{quantumState}</div>
+                    </div>
+                </div>
+            </div>
         );
-    }
+    };
+
+    // Mode-specific processing methods
+    processQuantumResponse = async (query, state) => {
+        const response = await this.generateContextualResponse(query);
+        return (
+            <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 rounded-full bg-blue-500 animate-pulse"></div>
+                    <div className="text-blue-300">Quantum State: {state}</div>
+                </div>
+                {response}
+            </div>
+        );
+    };
+
+    processNeuralResponse = async (query, synergy) => {
+        const response = await this.generateContextualResponse(query);
+        return (
+            <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 rounded-full bg-purple-500 animate-pulse"></div>
+                    <div className="text-purple-300">Neural Synergy: {(synergy * 100).toFixed(1)}%</div>
+                </div>
+                {response}
+            </div>
+        );
+    };
+
+    processCyberneticResponse = async (query, level) => {
+        const response = await this.generateContextualResponse(query);
+        return (
+            <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                    <div className="text-green-300">Augmentation Level: {level}</div>
+                </div>
+                {response}
+            </div>
+        );
+    };
+
+    processHeuristicResponse = async (query) => {
+        const response = await this.generateContextualResponse(query);
+        return (
+            <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 rounded-full bg-yellow-500 animate-pulse"></div>
+                    <div className="text-yellow-300">Heuristic Analysis Active</div>
+                </div>
+                {response}
+            </div>
+        );
+    };
+
+    processStandardResponse = async (query) => {
+        return await this.generateContextualResponse(query);
+    };
 
     // --- Add all neural/deep learning methods from your new code here ---
     // (initializeNeuralNetwork, initializeWeights, trainDeepLearningModels, etc.)
@@ -1462,29 +1421,249 @@ export class NyxDino extends Component {
         }
     };
 
-    generateContextualResponse = async (query, prediction, sentiment, features) => {
-        const category = prediction.category;
-        const confidence = prediction.confidence;
-        if (confidence > this.neuralNetwork.outputLayer.confidenceThreshold) {
-            const response = await this.generateCategoryResponse(category, query, sentiment);
-            return React.createElement('div', { className: 'bg-gradient-to-r from-purple-900 to-blue-900 border border-cyan-400 rounded-lg p-4' },
-                React.createElement('div', { className: 'flex items-center mb-2' },
-                    React.createElement('div', { className: 'text-green-400 text-lg' }, '🧠'),
-                    React.createElement('div', { className: 'text-cyan-300 font-bold ml-2' }, 'Neural Network Response (Confidence: ' + (confidence * 100).toFixed(1) + '%)')
-                ),
-                React.createElement('div', { className: 'text-gray-100 mb-3' }, response),
-                React.createElement('div', { className: 'bg-black bg-opacity-30 rounded p-2 text-xs' },
-                    React.createElement('div', { className: 'text-yellow-300' }, '🔬 ML Analysis:'),
-                    React.createElement('div', { className: 'text-gray-300' }, 'Category: ' + category + ' | Sentiment: ' + sentiment.sentiment + ' | Features: ' + features.technicalTerms + ' tech terms'),
-                    React.createElement('div', { className: 'text-blue-300' }, 'Model Accuracy: ' + (this.neuralNetwork.trainingAccuracy * 100).toFixed(1) + '% | Epochs Trained: ' + this.neuralNetwork.epochs)
-                )
-            );
+    generateContextualResponse = async (query) => {
+        try {
+            const normalizedQuery = query.toLowerCase().trim();
+
+            // Handle greetings
+            const greetings = ['hi', 'hello', 'hey', 'yo', 'sup', 'greetings'];
+            if (greetings.includes(normalizedQuery)) {
+                return this.getWelcomeResponse();
+            }
+
+            // Handle personal info queries
+            if (this.matchQuery(query, [
+                'personal info', 'background', 'about', 'who is dino',
+                'tell me about dino', 'introduce', 'personal information'
+            ])) {
+                return this.getPersonalInfoResponse();
+            }
+
+            // Handle skills queries
+            if (this.matchQuery(query, this.queryPatterns.skills)) {
+                return this.getEnhancedSkillsResponse();
+            }
+
+            // Handle project queries
+            if (this.matchQuery(query, this.queryPatterns.projects)) {
+                return this.getEnhancedProjectsResponse();
+            }
+
+            // Handle education queries
+            if (this.matchQuery(query, this.queryPatterns.education)) {
+                return this.getEnhancedEducationResponse();
+            }
+
+            // Handle contact queries
+            if (this.matchQuery(query, this.queryPatterns.contact)) {
+                return this.getEnhancedSocialResponse();
+            }
+
+            // Handle experience queries
+            if (this.matchQuery(query, this.queryPatterns.experience)) {
+                return this.getEnhancedWorkResponse();
+            }
+
+            // Handle achievements queries
+            if (this.matchQuery(query, this.queryPatterns.achievements)) {
+                return this.getEnhancedAchievementsResponse();
+            }
+
+            // Process through neural network for other queries
+            const prediction = this.neuralNetworkPredict(query);
+            if (prediction.confidence > 0.2) {
+                return this.generateCategoryResponse(prediction.category, query);
+            }
+
+            // Fallback response with smart suggestions
+            return this.getSmartFallbackResponse(query);
+        } catch (error) {
+            console.error('Error generating response:', error);
+            return this.getErrorResponse();
         }
-        // Always return a fallback if confidence is low
-        return await this.generateFallbackResponse(query, prediction, sentiment);
     };
 
-    generateCategoryResponse = async (category, query, sentiment) => {
+    getEnhancedSkillsResponse = () => (
+        <div className="bg-gray-800 border border-cyan-400 rounded p-4 space-y-4">
+            <div className="text-2xl font-bold text-cyan-300 mb-3">
+                🚀 Technical Skills & Expertise
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+                <div className="bg-blue-900 bg-opacity-50 p-4 rounded">
+                    <div className="text-blue-300 font-bold mb-2">💻 Programming Languages</div>
+                    <div className="grid grid-cols-2 gap-2">
+                        {this.personalInfo.languages.map((lang, index) => (
+                            <div key={index} className="flex items-center text-gray-200">
+                                <span className="mr-2">•</span>{lang}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="bg-purple-900 bg-opacity-50 p-4 rounded">
+                    <div className="text-purple-300 font-bold mb-2">🛠️ Frameworks & Tools</div>
+                    <div className="grid grid-cols-2 gap-2">
+                        {this.personalInfo.frameworks.map((framework, index) => (
+                            <div key={index} className="flex items-center text-gray-200">
+                                <span className="mr-2">•</span>{framework}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            <div className="bg-green-900 bg-opacity-50 p-4 rounded">
+                <div className="text-green-300 font-bold mb-2">🎯 Specialized Skills</div>
+                <div className="grid grid-cols-3 gap-4">
+                    {Object.entries(this.personalInfo.skillLevels).map(([skill, level], index) => (
+                        <div key={index} className="bg-black bg-opacity-30 p-2 rounded">
+                            <div className="text-yellow-300">{skill}</div>
+                            <div className="text-gray-300">Proficiency: {level}/10</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div className="bg-indigo-900 bg-opacity-50 p-4 rounded">
+                <div className="text-indigo-300 font-bold mb-2">🌟 Key Focus Areas</div>
+                <div className="grid grid-cols-2 gap-2">
+                    {this.personalInfo.work.technologies.map((tech, index) => (
+                        <div key={index} className="flex items-center text-gray-200">
+                            <span className="mr-2">•</span>{tech}
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div className="text-center text-gray-400 mt-2">
+                Want to see these skills in action? Try asking about my projects or work experience!
+            </div>
+        </div>
+    );
+
+    getEnhancedProjectsResponse = () => (
+        <div className="bg-gray-800 border border-cyan-400 rounded p-4 space-y-4">
+            <div className="text-2xl font-bold text-cyan-300 mb-3">
+                🛠️ Project Portfolio
+            </div>
+
+            <div className="grid grid-cols-1 gap-4">
+                <div className="bg-blue-900 bg-opacity-50 p-4 rounded">
+                    <div className="text-xl text-blue-300 font-bold mb-2">NyxDino AI Assistant</div>
+                    <div className="text-gray-200 mb-2">
+                        Advanced AI chatbot with neural capabilities and quantum-inspired processing
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                        <div className="text-yellow-300">Tech Stack:</div>
+                        <div className="text-gray-300">React, TensorFlow, NLP</div>
+                        <div className="text-yellow-300">Type:</div>
+                        <div className="text-gray-300">AI/ML, Web Application</div>
+                        <div className="text-yellow-300">Status:</div>
+                        <div className="text-green-300">Active Development</div>
+                    </div>
+                </div>
+
+                <div className="bg-purple-900 bg-opacity-50 p-4 rounded">
+                    <div className="text-xl text-purple-300 font-bold mb-2">Smart Image Recognition</div>
+                    <div className="text-gray-200 mb-2">
+                        Computer vision system using CNNs for real-time object detection
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                        <div className="text-yellow-300">Tech Stack:</div>
+                        <div className="text-gray-300">Python, OpenCV, PyTorch</div>
+                        <div className="text-yellow-300">Type:</div>
+                        <div className="text-gray-300">Computer Vision, ML</div>
+                        <div className="text-yellow-300">Status:</div>
+                        <div className="text-blue-300">Completed</div>
+                    </div>
+                </div>
+
+                <div className="bg-green-900 bg-opacity-50 p-4 rounded">
+                    <div className="text-xl text-green-300 font-bold mb-2">Analytics Dashboard</div>
+                    <div className="text-gray-200 mb-2">
+                        Real-time analytics platform with ML-powered insights
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                        <div className="text-yellow-300">Tech Stack:</div>
+                        <div className="text-gray-300">React, Python, D3.js</div>
+                        <div className="text-yellow-300">Type:</div>
+                        <div className="text-gray-300">Data Analytics, Visualization</div>
+                        <div className="text-yellow-300">Status:</div>
+                        <div className="text-purple-300">Beta Testing</div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="text-center text-gray-400 mt-2">
+                Check out my GitHub profile for more projects and source code!
+            </div>
+        </div>
+    );
+
+    getSmartFallbackResponse = (query) => (
+        <div className="bg-gray-800 border border-yellow-400 rounded p-4">
+            <div className="text-xl font-bold text-yellow-300 mb-2">
+                🤔 Let me help you find what you're looking for...
+            </div>
+            <div className="text-gray-200 mb-4">
+                I'm not quite sure about "{query}", but here are some suggestions that might help:
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+                <div className="bg-blue-900 bg-opacity-50 p-3 rounded">
+                    <div className="text-blue-300 font-bold mb-2">Popular Questions:</div>
+                    <ul className="space-y-1 text-gray-300">
+                        <li>• "Tell me about Dino"</li>
+                        <li>• "What are your skills?"</li>
+                        <li>• "Show me your projects"</li>
+                        <li>• "How can I contact you?"</li>
+                    </ul>
+                </div>
+                <div className="bg-purple-900 bg-opacity-50 p-3 rounded">
+                    <div className="text-purple-300 font-bold mb-2">Quick Commands:</div>
+                    <ul className="space-y-1 text-gray-300">
+                        <li>• Type 'help' for all commands</li>
+                        <li>• Type 'github' for GitHub profile</li>
+                        <li>• Type 'skills' for technical skills</li>
+                        <li>• Type 'clear' to reset terminal</li>
+                    </ul>
+                </div>
+            </div>
+            <div className="mt-4 text-center text-gray-400">
+                💡 Tip: Try using simple, specific questions for better results!
+            </div>
+        </div>
+    );
+
+    getErrorResponse = () => (
+        <div className="bg-gray-800 border border-red-400 rounded p-4">
+            <div className="text-xl font-bold text-red-300 mb-2">
+                ⚠️ Oops! Something went wrong...
+            </div>
+            <div className="text-gray-200 mb-3">
+                I encountered an error while processing your request. Here are some things you can try:
+            </div>
+            <div className="bg-black bg-opacity-30 p-3 rounded space-y-2 text-gray-300">
+                <div>• Refresh the page and try again</div>
+                <div>• Use simpler, more direct questions</div>
+                <div>• Try one of the basic commands (help, github, skills)</div>
+                <div>• Check if your question is properly formatted</div>
+            </div>
+            <div className="mt-4 text-center text-gray-400">
+                If the problem persists, try using the 'clear' command to reset the terminal.
+            </div>
+        </div>
+    );
+
+    matchQuery = (query, patterns) => {
+        const normalizedQuery = query.toLowerCase().trim();
+        return patterns.some(pattern => 
+            normalizedQuery.includes(pattern) || 
+            normalizedQuery.split(' ').some(word => pattern.includes(word))
+        );
+    };
+
+    generateCategoryResponse = async (category, query) => {
         const categoryResponses = {
             personal_info: this.generatePersonalInfoResponse(),
             skills: this.generateSkillsResponse(),
@@ -1567,23 +1746,72 @@ export class NyxDino extends Component {
         );
     };
 
-    generateEducationResponse = () => {
-        return React.createElement('div', {},
-            React.createElement('div', { className: 'text-xl font-bold mb-3' }, '🎓 Educational Journey'),
-            React.createElement('div', { className: 'bg-blue-900 bg-opacity-50 rounded p-3' },
-                React.createElement('div', { className: 'text-cyan-300 font-bold' }, 'Current Education'),
-                React.createElement('div', {},
-                    React.createElement('div', {}, 'Program: ' + this.personalInfo.education.current),
-                    React.createElement('div', {}, 'Year: ' + this.personalInfo.education.year),
-                    React.createElement('div', {}, 'GPA: ' + this.personalInfo.education.gpa)
-                )
-            ),
-            React.createElement('div', { className: 'mt-3 bg-purple-900 bg-opacity-50 rounded p-3' },
-                React.createElement('div', { className: 'text-purple-300 font-bold' }, 'Key Courses'),
-                React.createElement('div', {}, this.personalInfo.education.courses.join(', '))
-            )
-        );
-    };
+    generateEducationResponse = () => (
+        <div className="bg-gray-800 border border-cyan-400 rounded p-4 space-y-4">
+            <div className="text-2xl font-bold text-cyan-300 mb-3">
+                🎓 Educational Journey
+            </div>
+
+            <div className="bg-blue-900 bg-opacity-50 p-4 rounded">
+                <div className="text-xl text-blue-300 font-bold mb-2">Delhi Technological University (DTU)</div>
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <div className="text-yellow-300 mb-1">Program</div>
+                        <div className="text-gray-200">BTech in Artificial Intelligence</div>
+                    </div>
+                    <div>
+                        <div className="text-yellow-300 mb-1">Status</div>
+                        <div className="text-gray-200">2nd Year | GPA: 8.7</div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+                <div className="bg-purple-900 bg-opacity-50 p-4 rounded">
+                    <div className="text-purple-300 font-bold mb-2">🔬 Key Courses</div>
+                    <ul className="space-y-2 text-gray-200">
+                        <li>• Machine Learning & AI</li>
+                        <li>• Neural Networks</li>
+                        <li>• Data Structures & Algorithms</li>
+                        <li>• Computer Vision</li>
+                        <li>• Natural Language Processing</li>
+                    </ul>
+                </div>
+
+                <div className="bg-green-900 bg-opacity-50 p-4 rounded">
+                    <div className="text-green-300 font-bold mb-2">🏆 Academic Achievements</div>
+                    <ul className="space-y-2 text-gray-200">
+                        <li>• Top 5% in class ranking</li>
+                        <li>• DTU AI Hackathon Winner</li>
+                        <li>• Research paper published</li>
+                        <li>• Merit scholarship recipient</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div className="bg-indigo-900 bg-opacity-50 p-4 rounded">
+                <div className="text-indigo-300 font-bold mb-2">📚 Additional Learning</div>
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <div className="text-yellow-300 mb-1">Certifications</div>
+                        <ul className="text-gray-200 text-sm">
+                            <li>• Deep Learning Specialization</li>
+                            <li>• AWS Cloud Practitioner</li>
+                            <li>• Full Stack Development</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div className="text-yellow-300 mb-1">Online Courses</div>
+                        <ul className="text-gray-200 text-sm">
+                            <li>• Stanford CS224n NLP</li>
+                            <li>• MIT OCW Linear Algebra</li>
+                            <li>• Coursera Machine Learning</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 
     generateWorkResponse = () => {
         return React.createElement('div', {},
@@ -1603,29 +1831,44 @@ export class NyxDino extends Component {
         );
     };
 
-    generateSocialResponse = () => {
-        return React.createElement('div', {},
-            React.createElement('div', { className: 'text-xl font-bold mb-3' }, '🌐 Connect with Dino'),
-            React.createElement('div', { className: 'grid grid-cols-2 gap-3' },
-                React.createElement('a', { href: this.personalInfo.social.github, target: '_blank', className: 'bg-gray-800 hover:bg-gray-700 rounded p-2 text-center' },
-                    React.createElement('div', { className: 'text-white font-bold' }, 'GitHub'),
-                    React.createElement('div', { className: 'text-blue-300 text-sm' }, 'View Projects')
-                ),
-                React.createElement('a', { href: this.personalInfo.social.linkedin, target: '_blank', className: 'bg-gray-800 hover:bg-gray-700 rounded p-2 text-center' },
-                    React.createElement('div', { className: 'text-white font-bold' }, 'LinkedIn'),
-                    React.createElement('div', { className: 'text-blue-300 text-sm' }, 'Professional Profile')
-                ),
-                React.createElement('a', { href: this.personalInfo.social.portfolio, target: '_blank', className: 'bg-gray-800 hover:bg-gray-700 rounded p-2 text-center' },
-                    React.createElement('div', { className: 'text-white font-bold' }, 'Portfolio'),
-                    React.createElement('div', { className: 'text-blue-300 text-sm' }, 'See My Work')
-                ),
-                React.createElement('a', { href: this.personalInfo.social.blog, target: '_blank', className: 'bg-gray-800 hover:bg-gray-700 rounded p-2 text-center' },
-                    React.createElement('div', { className: 'text-white font-bold' }, 'Blog'),
-                    React.createElement('div', { className: 'text-blue-300 text-sm' }, 'Read My Articles')
-                )
-            )
-        );
-    };
+    generateSocialResponse = () => (
+        <div className="bg-gray-800 border border-cyan-400 rounded p-4">
+            <div className="text-2xl font-bold mb-3">🌐 Connect with Dino</div>
+            <div className="space-y-3">
+                <a href={this.personalInfo.social.instagram} target="_blank" rel="noopener noreferrer" 
+                   className="flex items-center p-2 rounded hover:bg-gray-700 transition-colors">
+                    <img src="https://img.shields.io/static/v1?message=Instagram&logo=instagram&label=&color=E4405F&logoColor=white&labelColor=&style=for-the-badge" 
+                         height="35" alt="instagram logo" className="mr-2" />
+                    <span className="text-gray-300">@the.end_giveup</span>
+                </a>
+                
+                <a href={this.personalInfo.social.discord} target="_blank" rel="noopener noreferrer"
+                   className="flex items-center p-2 rounded hover:bg-gray-700 transition-colors">
+                    <img src="https://img.shields.io/static/v1?message=Discord&logo=discord&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" 
+                         height="35" alt="discord logo" className="mr-2" />
+                    <span className="text-gray-300">Discord Profile</span>
+                </a>
+                
+                <a href={`mailto:${this.personalInfo.social.email}`}
+                   className="flex items-center p-2 rounded hover:bg-gray-700 transition-colors">
+                    <img src="https://img.shields.io/static/v1?message=Gmail&logo=gmail&label=&color=D14836&logoColor=white&labelColor=&style=for-the-badge" 
+                         height="35" alt="gmail logo" className="mr-2" />
+                    <span className="text-gray-300">{this.personalInfo.social.email}</span>
+                </a>
+                
+                <a href={this.personalInfo.social.spotify} target="_blank" rel="noopener noreferrer"
+                   className="flex items-center p-2 rounded hover:bg-gray-700 transition-colors">
+                    <img src="https://img.shields.io/static/v1?message=Spotify&logo=spotify&label=&color=1DB954&logoColor=white&labelColor=&style=for-the-badge" 
+                         height="35" alt="spotify logo" className="mr-2" />
+                    <span className="text-gray-300">Spotify Profile</span>
+                </a>
+            </div>
+            
+            <div className="mt-4 text-gray-400 text-sm text-center">
+                Feel free to reach out through any of these platforms! 🚀
+            </div>
+        </div>
+    );
 
     generatePredictionResponse = () => {
         return React.createElement('div', {},
@@ -1753,9 +1996,9 @@ export class NyxDino extends Component {
     containsKeywords = (query, keywords) => {
         query = query.toLowerCase().trim();
         
-        // First check for exact phrase matches (for questions like "where do you study")
-        if (keywords.some(k => query === k.toLowerCase())) {
-            console.log('Exact phrase match found for:', query);
+        // First check for exact matches (especially important for greetings)
+        if (keywords.some(k => k === query)) {
+            console.log('Exact match found for:', query);
             return true;
         }
         
@@ -1786,13 +2029,19 @@ export class NyxDino extends Component {
         // Check for word combinations from keywords
         for (const keyword of keywords) {
             const keywordWords = keyword.toLowerCase().split(' ');
-            // Check if all words in the keyword appear in the query
-            const allWordsMatch = keywordWords.every(word => 
-                queryWords.some(qWord => qWord.includes(word) || word.includes(qWord))
-            );
-            if (allWordsMatch) {
-                console.log('Word combination match found for:', keyword);
-                return true;
+            if (keywordWords.length === 1) {
+                // For single-word keywords, check if it appears as a complete word
+                if (queryWords.includes(keywordWords[0])) {
+                    console.log('Single word match found for:', keyword);
+                    return true;
+                }
+            } else {
+                // For multi-word keywords, check if all words appear in order
+                const keywordPattern = keywordWords.join(' ');
+                if (query.includes(keywordPattern)) {
+                    console.log('Multi-word pattern match found for:', keyword);
+                    return true;
+                }
             }
         }
         
@@ -1859,11 +2108,293 @@ export class NyxDino extends Component {
     };
 
     render() {
-        return React.createElement('div', {
-            id: 'nyxdino-body',
-            className: 'h-full w-full bg-gray-900 text-white text-sm font-mono overflow-y-auto p-4'
-        }, this.state.terminal);
+        return (
+            <div 
+                id="nyxdino-body"
+                className="h-full w-full bg-gray-900 text-white text-sm font-mono overflow-y-auto p-4"
+                onClick={() => {
+                    const lastInput = document.getElementById(`terminal-input-${this.terminal_rows - 1}`);
+                    if (lastInput) {
+                        lastInput.focus();
+                    }
+                }}
+            >
+                {this.state.isInitialized ? this.state.terminal : null}
+            </div>
+        );
     }
+
+    getWelcomeResponse = () => (
+        <div className="bg-gray-800 border border-cyan-400 rounded p-4 space-y-4">
+            <div className="text-center">
+                <div className="text-6xl mb-2">🦖</div>
+                <div className="text-cyan-400 text-2xl font-bold mb-2">
+                    Hey there! I'm NyxDino! 👋
+                </div>
+            </div>
+            <div className="bg-blue-900 bg-opacity-50 rounded p-4">
+                <div className="text-blue-300 font-bold mb-2">🤖 Quick Introduction</div>
+                <div className="text-gray-200">
+                    I'm your AI assistant, powered by advanced neural networks and machine learning!
+                    I know everything about Dino, the AI enthusiast from Delhi.
+                </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+                <div className="bg-purple-900 bg-opacity-50 p-3 rounded">
+                    <div className="text-purple-300 font-bold mb-2">💡 Try asking about:</div>
+                    <ul className="list-disc list-inside text-gray-200 text-sm">
+                        <li>Dino's AI projects</li>
+                        <li>His skills & expertise</li>
+                        <li>Education at DTU</li>
+                        <li>Work experience</li>
+                    </ul>
+                </div>
+                <div className="bg-green-900 bg-opacity-50 p-3 rounded">
+                    <div className="text-green-300 font-bold mb-2">🎯 Current Status</div>
+                    <ul className="list-disc list-inside text-gray-200 text-sm">
+                        <li>AI Mode: {this.state.aiMode.toUpperCase()}</li>
+                        <li>Neural Network: Active</li>
+                        <li>Learning: Enabled</li>
+                        <li>Response Style: Dynamic</li>
+                    </ul>
+                </div>
+            </div>
+            <div className="text-center text-gray-300 text-sm">
+                Type 'help' for more commands or just ask me anything! 🚀
+            </div>
+        </div>
+    );
+
+    getEducationResponse = () => (
+        <div className="bg-gray-800 border border-cyan-400 rounded p-4">
+            <div className="text-2xl font-bold mb-3">🎓 Educational Journey</div>
+            <div className="bg-blue-900 bg-opacity-50 rounded p-4 mb-3">
+                <div className="text-xl text-blue-300 mb-2">Delhi Technological University (DTU)</div>
+                <div className="text-gray-200">BTech in Artificial Intelligence</div>
+                <div className="text-yellow-300">2nd Year | GPA: 8.7</div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+                <div className="bg-purple-900 bg-opacity-50 p-3 rounded">
+                    <div className="font-bold text-purple-300 mb-2">Key Courses</div>
+                    <ul className="list-disc list-inside text-gray-200 text-sm">
+                        <li>Machine Learning</li>
+                        <li>Neural Networks</li>
+                        <li>Computer Vision</li>
+                        <li>Data Structures</li>
+                    </ul>
+                </div>
+                <div className="bg-green-900 bg-opacity-50 p-3 rounded">
+                    <div className="font-bold text-green-300 mb-2">Achievements</div>
+                    <ul className="list-disc list-inside text-gray-200 text-sm">
+                        <li>DTU AI Hackathon Winner</li>
+                        <li>Top 5% in class</li>
+                        <li>Research Publication</li>
+                    </ul>
+                </div>
+            </div>
+            <div className="mt-3 text-gray-300 text-sm text-center">
+                💡 Passionate about applying AI concepts to real-world problems!
+            </div>
+        </div>
+    );
+
+    getAboutResponse = () => (
+        <div className="bg-gray-800 border border-cyan-400 rounded p-4">
+            <div className="text-2xl font-bold mb-3">🦖 Meet Dino!</div>
+            <div className="text-yellow-300 mb-3">A 19-year-old AI prodigy from Delhi, pursuing BTech in AI at DTU</div>
+            <div className="grid grid-cols-2 gap-4 mb-3">
+                <div className="bg-blue-900 bg-opacity-50 p-3 rounded">
+                    <div className="font-bold text-blue-300 mb-2">💼 Professional</div>
+                    <div className="text-gray-200">Junior Software Developer (Part-time)</div>
+                </div>
+                <div className="bg-purple-900 bg-opacity-50 p-3 rounded">
+                    <div className="font-bold text-purple-300 mb-2">🎯 Specialization</div>
+                    <div className="text-gray-200">AI/ML & Full-stack Development</div>
+                </div>
+            </div>
+            <div className="text-green-300 text-sm mt-3">🚀 Building the future with code and AI!</div>
+        </div>
+    );
+
+    getSkillsResponse = () => (
+        <div className="bg-gray-800 border border-cyan-400 rounded p-4">
+            <div className="text-2xl font-bold mb-3">🚀 Technical Arsenal</div>
+            <div className="grid grid-cols-3 gap-3 mb-3">
+                <div className="bg-blue-900 bg-opacity-50 p-3 rounded">
+                    <div className="font-bold text-blue-300 mb-2">AI/ML</div>
+                    <div className="text-gray-200 text-sm">TensorFlow, PyTorch, Scikit-learn, OpenCV</div>
+                </div>
+                <div className="bg-purple-900 bg-opacity-50 p-3 rounded">
+                    <div className="font-bold text-purple-300 mb-2">Frontend</div>
+                    <div className="text-gray-200 text-sm">React, Next.js, Flutter</div>
+                </div>
+                <div className="bg-green-900 bg-opacity-50 p-3 rounded">
+                    <div className="font-bold text-green-300 mb-2">Backend</div>
+                    <div className="text-gray-200 text-sm">Node.js, Python, Firebase</div>
+                </div>
+            </div>
+            <div className="text-yellow-300 text-sm mt-2">💡 Always learning and expanding this list!</div>
+        </div>
+    );
+
+    getProjectsResponse = () => (
+        <div className="bg-gray-800 border border-cyan-400 rounded p-4">
+            <div className="text-2xl font-bold mb-3">🛠️ Project Showcase</div>
+            <div className="space-y-3">
+                <div className="bg-blue-900 bg-opacity-50 p-3 rounded">
+                    <div className="font-bold text-blue-300">NyxDino AI Assistant</div>
+                    <div className="text-gray-200">Advanced AI chatbot with neural capabilities</div>
+                    <div className="text-yellow-300 text-sm">Tech: React, TensorFlow, NLP</div>
+                </div>
+                <div className="bg-purple-900 bg-opacity-50 p-3 rounded">
+                    <div className="font-bold text-purple-300">Smart Image Recognition</div>
+                    <div className="text-gray-200">Computer vision system using CNNs</div>
+                    <div className="text-yellow-300 text-sm">Tech: Python, OpenCV, PyTorch</div>
+                </div>
+                <div className="bg-green-900 bg-opacity-50 p-3 rounded">
+                    <div className="font-bold text-green-300">Analytics Dashboard</div>
+                    <div className="text-gray-200">ML-powered real-time analytics</div>
+                    <div className="text-yellow-300 text-sm">Tech: React, Python, D3.js</div>
+                </div>
+            </div>
+        </div>
+    );
+
+    getHobbiesResponse = () => (
+        <div className="bg-gray-800 border border-purple-400 rounded p-4">
+            <div className="text-2xl font-bold mb-3">🎮 Hobbies & Fun</div>
+            <div className="text-gray-300 mb-2">When not coding, Dino enjoys:</div>
+            <ul className="list-disc list-inside text-blue-300">
+                <li>Playing chess ♟️</li>
+                <li>Reading sci-fi books 📚</li>
+                <li>Listening to synthwave music 🎶</li>
+                <li>Gaming (strategy & puzzle games) 🎮</li>
+                <li>Exploring new tech gadgets 🕹️</li>
+            </ul>
+        </div>
+    );
+
+    getBooksResponse = () => (
+        <div className="bg-gray-800 border border-green-400 rounded p-4">
+            <div className="text-2xl font-bold mb-3">📚 Favorite Books</div>
+            <div className="text-gray-300 mb-2">Dino recommends:</div>
+            <ul className="list-disc list-inside text-yellow-300">
+                <li>Hands-On Machine Learning by Aurélien Géron</li>
+                <li>Deep Learning by Ian Goodfellow</li>
+                <li>Pattern Recognition and Machine Learning by Bishop</li>
+                <li>The Elements of Statistical Learning</li>
+            </ul>
+        </div>
+    );
+
+    getFutureGoalsResponse = () => (
+        <div className="bg-gray-800 border border-blue-400 rounded p-4">
+            <div className="text-2xl font-bold mb-3">🚀 Future Goals & Ambitions</div>
+            <div className="text-gray-300 mb-2">Dino aspires to:</div>
+            <ul className="list-disc list-inside text-green-300">
+                <li>Lead an innovative AI startup</li>
+                <li>Publish research in top AI journals</li>
+                <li>Speak at global tech conferences</li>
+                <li>Mentor the next generation of AI devs</li>
+            </ul>
+        </div>
+    );
+
+    getFavoriteLanguageResponse = () => (
+        <div className="bg-gray-800 border border-yellow-400 rounded p-4">
+            <div className="text-2xl font-bold mb-3">💻 Favorite Programming Language</div>
+            <div className="text-gray-300 mb-2">Dino loves Python for its simplicity and power in AI/ML!</div>
+            <div className="text-blue-300">Other favorites: JavaScript (React), C++, and Dart (Flutter)</div>
+        </div>
+    );
+
+    fetchGitHubData = async (username) => {
+        try {
+            const userResponse = await fetch(`https://api.github.com/users/${username}`);
+            const userData = await userResponse.json();
+            
+            const reposResponse = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=5`);
+            const reposData = await reposResponse.json();
+            
+            return {
+                profile: userData,
+                repos: reposData
+            };
+        } catch (error) {
+            console.error('Error fetching GitHub data:', error);
+            return null;
+        }
+    };
+
+    getGitHubResponse = async () => {
+        const githubData = await this.fetchGitHubData(this.personalInfo.social.github.split('/').pop());
+        
+        if (!githubData) {
+            return (
+                <div className="bg-gray-800 border border-red-400 rounded p-4">
+                    <div className="text-red-400 font-bold mb-2">⚠️ GitHub Data Unavailable</div>
+                    <div className="text-gray-200">
+                        Sorry, I couldn't fetch the latest GitHub information at the moment.
+                        Please check back later or visit the GitHub profile directly.
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div className="bg-gray-800 border border-purple-400 rounded p-4 space-y-4">
+                <div className="flex items-center space-x-4">
+                    <img 
+                        src={githubData.profile.avatar_url} 
+                        alt="GitHub Avatar" 
+                        className="w-16 h-16 rounded-full"
+                    />
+                    <div>
+                        <div className="text-2xl font-bold text-purple-300">
+                            {githubData.profile.name || githubData.profile.login}
+                        </div>
+                        <div className="text-gray-400">
+                            {githubData.profile.bio}
+                        </div>
+                    </div>
+                </div>
+                
+                <div className="grid grid-cols-3 gap-4 bg-gray-900 rounded p-4">
+                    <div className="text-center">
+                        <div className="text-xl font-bold text-green-400">{githubData.profile.public_repos}</div>
+                        <div className="text-gray-400">Repositories</div>
+                    </div>
+                    <div className="text-center">
+                        <div className="text-xl font-bold text-blue-400">{githubData.profile.followers}</div>
+                        <div className="text-gray-400">Followers</div>
+                    </div>
+                    <div className="text-center">
+                        <div className="text-xl font-bold text-yellow-400">{githubData.profile.following}</div>
+                        <div className="text-gray-400">Following</div>
+                    </div>
+                </div>
+
+                <div className="space-y-3">
+                    <div className="text-xl font-bold text-purple-300">Latest Repositories</div>
+                    {githubData.repos.map(repo => (
+                        <div key={repo.id} className="bg-gray-900 rounded p-3">
+                            <div className="font-bold text-blue-400">
+                                <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+                                    {repo.name}
+                                </a>
+                            </div>
+                            <div className="text-gray-300 text-sm">{repo.description}</div>
+                            <div className="flex space-x-4 mt-2 text-sm">
+                                <span className="text-yellow-400">⭐ {repo.stargazers_count}</span>
+                                <span className="text-green-400">🔄 {repo.forks_count}</span>
+                                <span className="text-purple-400">{repo.language}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    };
 }
 
 export default NyxDino;

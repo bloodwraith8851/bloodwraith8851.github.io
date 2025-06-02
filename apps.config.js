@@ -104,11 +104,11 @@ const apps = [
     },
     {
         id: "nyxdino",
-        title: "NyxDino AI",           // Appears in window title
-        icon: './themes/Yaru/apps/tars.svg',  // Your TARS icon
-        disabled: false,               // App is enabled
-        favourite: true,               // Shows in sidebar
-        desktop_shortcut: true,        // Shows on desktop
+        title: "NyxDino AI",           
+        icon: './themes/Yaru/apps/nyxdino.svg',  // Updated path to new SVG icon
+        disabled: false,               
+        favourite: true,               
+        desktop_shortcut: true,        
         screen: displayNyxDino,
     },
 ]

@@ -1,13 +1,25 @@
 import React from 'react'
 
 export default function VsCode() {
+    // Convert regular GitHub URL to github1s URL for VSCode web interface
+    const githubUrl = "https://github.com/bloodwraith8851/bloodwraith8851.github.io";
+    const vscodeUrl = githubUrl.replace("github.com", "github1s.com");
+
     return (
-        <iframe src="https://github1s.com/vivek9patel/vivek9patel.github.io/blob/HEAD/components/ubuntu.js" frameBorder="0" title="VsCode" className="h-full w-full bg-ub-cool-grey"></iframe>
-        // this is not my work, but it's amazing!
-        // Here is the link to the original repo: https://github.com/conwnet/github1s
-    )
+        <div className="h-full w-full bg-ub-cool-grey">
+            <iframe 
+                src={vscodeUrl}
+                frameBorder="0" 
+                title="VSCode" 
+                className="h-full w-full"
+                sandbox="allow-scripts allow-same-origin allow-forms"
+                loading="lazy"
+            ></iframe>
+        </div>
+    );
 }
 
+// Fix the displayVsCode function to properly return the component
 export const displayVsCode = () => {
-    <VsCode> </VsCode>
+    return <VsCode />;
 }
