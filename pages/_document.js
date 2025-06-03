@@ -9,7 +9,11 @@ class MyDocument extends Document {
     render() {
         return (
             <Html lang="en">
-                <Head />
+                <Head>
+                    <meta httpEquiv='cache-control' content='no-cache' />
+                    <meta httpEquiv='expires' content='0' />
+                    <meta httpEquiv='pragma' content='no-cache' />
+                </Head>
                 <body>
                     <Main />
                     <NextScript />
