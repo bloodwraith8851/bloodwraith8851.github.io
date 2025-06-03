@@ -30,6 +30,7 @@ jobs:
 
       - name: Prepare for deployment
         run: |
+          mkdir -p .next/standalone/_next/static
           cp -r .next/standalone/* .
           cp -r .next/static .next/standalone/_next/static
           touch .nojekyll
