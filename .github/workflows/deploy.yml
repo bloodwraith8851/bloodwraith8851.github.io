@@ -35,13 +35,20 @@ jobs:
       - name: Build
         run: npm run build
         
+      - name: Prepare artifact
+        run: |
+          mkdir -p .next/standalone/_next
+          cp -r .next/static .next/standalone/_next/
+          cp -r public/* .next/standalone/
+          touch .next/standalone/.nojekyll
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: out
+          path: .next/standalone
 
   deploy:
     environment:
