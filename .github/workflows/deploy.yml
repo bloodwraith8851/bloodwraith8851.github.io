@@ -35,6 +35,12 @@ jobs:
       - name: Build
         run: npm run build
         
+      - name: Prepare for deployment
+        run: |
+          cp -r out/.next/standalone/* out/
+          cp -r out/.next/static out/_next/static
+          touch out/.nojekyll
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
