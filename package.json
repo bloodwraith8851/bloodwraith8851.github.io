@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node .next/standalone/server.js",
     "export": "next export",
     "deploy": "next build && touch out/.nojekyll && gh-pages -d out",
     "lint": "next lint"
