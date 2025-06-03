@@ -37,9 +37,10 @@ jobs:
         
       - name: Prepare for deployment
         run: |
-          cp -r out/.next/standalone/* out/
-          cp -r out/.next/static out/_next/static
-          touch out/.nojekyll
+          cp -r .next/standalone/* .
+          mkdir -p .next/static
+          cp -r .next/static .next/standalone/_next/
+          touch .nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -47,7 +48,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: out
+          path: .next/standalone
 
   deploy:
     environment:
