@@ -28,8 +28,10 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Add .nojekyll file
-        run: touch ./out/.nojekyll
+      - name: Create .nojekyll file
+        run: |
+          mkdir -p out
+          touch out/.nojekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
