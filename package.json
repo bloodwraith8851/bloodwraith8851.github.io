@@ -5,7 +5,7 @@
   "homepage": "https://bloodwraith8851.github.io",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && touch .next/standalone/.nojekyll",
+    "build": "next build && touch out/.nojekyll",
     "start": "next start",
     "export": "next export",
     "deploy": "next build && touch out/.nojekyll && gh-pages -d out",
