@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  output: 'export',
   images: {
     unoptimized: true,
   },
   basePath: '',
-  assetPrefix: './',
+  assetPrefix: '',
   trailingSlash: true,
 }
 
