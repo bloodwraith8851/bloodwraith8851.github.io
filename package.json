@@ -5,10 +5,10 @@
   "homepage": "https://bloodwraith8851.github.io",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && touch out/.nojekyll",
     "start": "next start",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d out"
+    "export": "next export",
+    "deploy": "next build && touch out/.nojekyll && gh-pages -d out"
   },
   "engines": {
     "node": ">=16.x"
