@@ -26,6 +26,11 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Create .nojekyll file
+        run: touch out/.nojekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
