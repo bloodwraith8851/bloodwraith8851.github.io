@@ -27,6 +27,7 @@ jobs:
       - name: Build
         run: |
           npm run build
+          mkdir -p out
           cp -r .next/standalone/* out/
           cp -r .next/static out/
           cp -r public/* out/
