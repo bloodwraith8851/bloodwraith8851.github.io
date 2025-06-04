@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "predeploy": "next build && (if exist out rd /s /q out) && mkdir out && xcopy dist\\* out\\ /E /I /Y && type nul > out\\.nojekyll && type nul > out\\index.html",
+    "predeploy": "next build && mkdir .next\\standalone\\_next 2>nul & xcopy /E /I /Y .next\\static .next\\standalone\\_next\\static & (if exist out rd /s /q out) & mkdir out & xcopy /E /I /Y .next\\standalone\\* out\\ & type nul > out\\.nojekyll",
     "deploy": "gh-pages -d out --dotfiles",
     "lint": "next lint"
   },
