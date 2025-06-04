@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "deploy": "next build && type nul > out/.nojekyll && gh-pages -d out --dotfiles",
+    "deploy": "rm -rf node_modules/.cache && next build && type nul > out/.nojekyll && gh-pages -d out --dotfiles",
     "lint": "next lint"
   },
   "engines": {
