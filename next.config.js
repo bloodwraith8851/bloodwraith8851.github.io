@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  output: 'standalone',
   images: {
     unoptimized: true,
   },
-  basePath: '',
-  assetPrefix: '',
+  basePath: '/bloodwraith8851.github.io',
+  assetPrefix: '/bloodwraith8851.github.io/',
   trailingSlash: true,
   distDir: 'build'
 }

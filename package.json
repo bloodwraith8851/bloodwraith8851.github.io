@@ -7,8 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "predeploy": "npm run build",
-    "deploy": "type nul > build\\.nojekyll && gh-pages -d build --dotfiles true",
+    "predeploy": "npm run build && mkdir out 2>nul & xcopy /E /I /Y build\\standalone\\* out\\ & type nul > out\\.nojekyll & copy build\\standalone\\.next\\server\\pages\\index.html out\\index.html",
+    "deploy": "gh-pages -d out --dotfiles true",
     "lint": "next lint"
   },
   "engines": {
