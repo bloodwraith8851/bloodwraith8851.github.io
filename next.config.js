@@ -4,8 +4,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: process.env.NODE_ENV === 'production' ? '/bloodwraith8851.github.io' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/bloodwraith8851.github.io/' : '',
+  basePath: '/bloodwraith8851.github.io',
+  assetPrefix: '/bloodwraith8851.github.io/',
   trailingSlash: true,
 }
 
